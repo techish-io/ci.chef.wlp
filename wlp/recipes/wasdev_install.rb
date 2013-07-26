@@ -1,4 +1,3 @@
-# Author:: Jaroslaw Gawor (<jgawor@us.ibm.com>)
 # Cookbook Name:: wlp
 # Attributes:: default
 #
