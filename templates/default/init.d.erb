@@ -1,0 +1,71 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          wlp-<%= @serverName %>
+# Required-Start:    $local_fs $remote_fs $network
+# Required-Stop:     $local_fs $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/Stop WebSphere Application Server Liberty Profile
+### END INIT INFO
+
+export JAVA_HOME="<%=node['java']['java_home']%>"
+export WLP_INSTALL_DIR="<%= @installDir %>"
+<%= "export WLP_USER_DIR=#{@userDir}" if @userDir -%>
+
+SERVER_NAME="<%= @serverName %>"
+WLP_USER="<%=node['wlp']['user']%>"
+
+start() {
+  sudo -E -u $WLP_USER <%= @authBind ? "authbind --deep" : "" %> ${WLP_INSTALL_DIR}/bin/server start $SERVER_NAME <%= @cleanStart ? "--clean" : "" %>
+  error_code=$?
+  return $error_code   
+}
+
+stop() {
+  sudo -E -u $WLP_USER ${WLP_INSTALL_DIR}/bin/server stop $SERVER_NAME 
+  error_code=$?
+  return $error_code      
+}
+
+status() {
+  sudo -E -u $WLP_USER ${WLP_INSTALL_DIR}/bin/server status $SERVER_NAME
+  error_code=$?
+  return $error_code
+}
+
+statusQuiet() {
+  status >/dev/null 2>&1
+}
+
+restart() {
+  stop
+  start
+}
+
+case "$1" in
+  start)
+    statusQuiet && exit 0
+    start
+    ;;
+  stop)
+    statusQuiet || exit 0
+    stop
+    ;;
+  status)
+    status
+    ;;
+  restart)
+    restart
+    ;;
+  try-restart)
+    statusQuiet || exit 0
+    restart
+    ;;
+  *)
+    echo "Usage: /etc/init.d/wlp-<%= @serverName %> {start|stop|restart|try-restart|status}"
+    exit 2
+    ;;
+esac
+
+exit $?

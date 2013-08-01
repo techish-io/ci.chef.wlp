@@ -1,6 +1,8 @@
-actions :start, :stop, :create, :dump, :package
+actions :start, :stop, :create
 
 attribute :server_name, :kind_of => String, :name_attribute => true
-attribute :options, :kind_of => String, :default => nil
+
+attribute :template, :kind_of => String, :default => nil
+attribute :clean, :kind_of => [TrueClass, FalseClass], :default => false
 
 default_action :start

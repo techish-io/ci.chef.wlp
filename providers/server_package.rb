@@ -1,7 +1,8 @@
+# TODO: Replace by a library call?
 action :run do
   server_name = @new_resource.server_name
   Chef::Log.info "Packaging #{server_name}"
-  args = ""
+  args = "package #{new_resource.server_name}"
   archive = @new_resource.archive
   if archive
     args << " --archive=#{archive}"
@@ -10,9 +11,9 @@ action :run do
   if type
     args << " --include=#{type}"
   end
-  wlp_server "package #{server_name}" do
-    server_name server_name
-    action :package
-    options args
+  execute "bin/server #{args}" do
+    command "#{node['wlp']['base_dir']}/wlp/bin/server #{args}"
+    user node['wlp']['user']
+    group node['wlp']['group']
   end
 end
