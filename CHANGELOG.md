@@ -1,10 +1,10 @@
-# CHANGELOG for wlp-samples
+# CHANGELOG for wlp
 
-This file is used to list changes made in each version of wlp-samples.
+This file is used to list changes made in each version of wlp.
 
 ## 0.1.0:
 
-* Initial release of wlp-samples
+* Initial release of wlp
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
