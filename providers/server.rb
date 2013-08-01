@@ -16,7 +16,7 @@ end
 
 action :start do
 
-  service "example_service" do
+  service "wlp-#{new_resource.server_name}" do
     supports :start => true, :restart => true, :stop => true, :status => true
     action :nothing
   end
