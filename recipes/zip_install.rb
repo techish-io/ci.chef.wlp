@@ -15,7 +15,7 @@
 
 install_dir = "#{node['wlp']['base_dir']}/wlp"
 
-zip_uri = ::URI.parse("#{node['wlp']['zip']['url']}")
+zip_uri = ::URI.parse(node['wlp']['zip']['url'])
 zip_file = ::File.basename(zip_uri.path)
 
 remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file}" do

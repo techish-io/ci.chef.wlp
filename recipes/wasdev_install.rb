@@ -18,7 +18,7 @@ unless node['wlp']['wasdev']['accept_license']
 end
 
 runtime_dir = "#{node['wlp']['base_dir']}/wlp"
-runtime_uri = ::URI.parse("#{node['wlp']['wasdev']['runtime_url']}")
+runtime_uri = ::URI.parse(node['wlp']['wasdev']['runtime_url'])
 runtime_file = ::File.basename(runtime_uri.path)
 
 # Fetch the WAS Liberty Profile runtime file
@@ -36,7 +36,7 @@ extras_testfile = "#{node['wlp']['base_dir']}/wlp/lib/com.ibm.ws.jpa.thinclient_
 
 # Fetch the WAS Liberty Profile extended content
 if node['wlp']['wasdev']['extended_url']
-  extended_uri = ::URI.parse("#{node['wlp']['wasdev']['extended_url']}")
+  extended_uri = ::URI.parse(node['wlp']['wasdev']['extended_url'])
   extended_file = ::File.basename(extended_uri.path)
   remote_file "#{Chef::Config[:file_cache_path]}/#{extended_file}" do
     source node['wlp']['wasdev']['extended_url']
@@ -49,7 +49,7 @@ end
 
 # Fetch the WAS Liberty Profile extras content
 if node['wlp']['wasdev']['extras_url']
-  extras_uri = ::URI.parse("#{node['wlp']['wasdev']['extras_url']}")
+  extras_uri = ::URI.parse(node['wlp']['wasdev']['extras_url'])
   extras_file = ::File.basename(extras_uri.path)
   remote_file "#{Chef::Config[:file_cache_path]}/#{extras_file}" do
     source node['wlp']['wasdev']['extras_url']
