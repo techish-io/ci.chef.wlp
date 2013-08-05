@@ -13,9 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-wlp_user = node['wlp']['user']
-wlp_group = node['wlp']['group']
-wlp_base_dir = node['wlp']['base_dir']
+wlp_user = node[:wlp][:user]
+wlp_group = node[:wlp][:group]
+wlp_base_dir = node[:wlp][:base_dir]
 
 group wlp_group do
 end
@@ -35,4 +35,4 @@ directory wlp_base_dir do
   recursive true
 end
 
-include_recipe "wlp::#{node['wlp']['install_method']}_install"
+include_recipe "wlp::#{node[:wlp][:install_method]}_install"
