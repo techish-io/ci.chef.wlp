@@ -14,21 +14,29 @@
 # limitations under the License.
 
 action :add do
-  new_resource.options.each do | value |
-    @jvmOptions.add(value)
+  if new_resource.properties.kind_of?(Array)
+    raise "Properties must be specified as a hash"
+  else
+    new_resource.properties.each do | name, value |
+      @serverEnv.add(name, value)
+    end
   end
   
-  new_resource.updated_by_last_action(true) if @jvmOptions.save
+  new_resource.updated_by_last_action(true) if @serverEnv.save
 end
 
 action :remove do
-  new_resource.options.each do | value |
-    @jvmOptions.remove(value)
+  if new_resource.properties.kind_of?(Array)
+    new_resource.properties.each do | name |
+      @serverEnv.remove(name)
+    end
+  else
+    raise "Properties must be specified as an array"
   end
   
-  new_resource.updated_by_last_action(true) if @jvmOptions.save
+  new_resource.updated_by_last_action(true) if @serverEnv.save
 end
 
 def load_current_resource
-  @jvmOptions = Liberty::JvmOptions.new(node, new_resource.server_name)
+  @serverEnv = Liberty::ServerEnv.new(node, new_resource.server_name)
 end

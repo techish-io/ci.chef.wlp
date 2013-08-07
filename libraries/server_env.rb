@@ -14,7 +14,7 @@
 # limitations under the License.
 
 module Liberty
-  class JvmOptions
+  class ServerEnv
     
     def initialize(node, server_name = nil)
       @utils = Utils.new(node)
@@ -25,50 +25,54 @@ module Liberty
         raise "Server does not exist: #{server_name}"
       end
 
-      file = optionsFile()
+      file = envFile()
 
-      @options = []
+      @properties = {}
 
       if ::File.exists?(file)
         fileContents = ::File.readlines(file)
         fileContents.each do | line |
           line.strip!
-          if !line.empty? && line.start_with?("#")
-            @options << line
+          if !line.empty? && !line.start_with?("#")
+            pos = line.index("=")
+            if pos
+              name = line[0..pos-1].strip
+              value = line[pos+1..-1].strip
+              @properties[name] = value
+            end
           end
         end
       end
     end
 
-    def optionsFile()
+    def envFile()
       if @server_name
-        return "#{@utils.serversDirectory}/#{@server_name}/jvm.options"
+        return "#{@utils.serversDirectory}/#{@server_name}/server.env"
       else
-        return "#{@utils.installDirectory}/etc/jvm.options"
+        return "#{@utils.installDirectory}/etc/server.env"
       end
     end
 
-    def options
-      return @options
+    def properties
+      return @properties
     end
-
+    
     def modified
       return @modified
     end
 
-    def add(option)
-      if index = findOption(option)
+    def add(name, value)
+      if value == get(name)
         return false
       else 
-        @options << option
+        @properties[name] = value
         @modified = true
         return true
       end
     end
 
-    def remove(option)
-      if index = findOption(option)
-        @options.delete_at(index)
+    def remove(name)
+      if @properties.delete(name)
         @modified = true
         return true
       else 
@@ -76,18 +80,13 @@ module Liberty
       end
     end
 
-    def findOption(option)
-      @options.each_with_index do | value, index |
-        if option == value
-          return index
-        end
-      end
-      return nil
+    def get(name)
+      return @properties[name]
     end
 
     def save()
       if @modified
-        file = optionsFile()
+        file = envFile()
         
         # create "etc" parent directory if necessary
         if !@server_name
@@ -95,7 +94,10 @@ module Liberty
         end
 
         out = ::File.open(file, "w")
-        out.write(@options.join("\n"))
+        @properties.each do | key, value |
+          line = "#{key}=#{value}\n"
+          out.write(line)
+        end
         out.close()
 
         @utils.chown(file)

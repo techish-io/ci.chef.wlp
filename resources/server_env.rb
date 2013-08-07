@@ -13,22 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-action :add do
-  new_resource.options.each do | value |
-    @jvmOptions.add(value)
-  end
-  
-  new_resource.updated_by_last_action(true) if @jvmOptions.save
-end
+actions :add, :remove
 
-action :remove do
-  new_resource.options.each do | value |
-    @jvmOptions.remove(value)
-  end
-  
-  new_resource.updated_by_last_action(true) if @jvmOptions.save
-end
+attribute :server_name, :kind_of => String, :default => nil
+attribute :properties, :kind_of => [Hash, Array], :default => nil
 
-def load_current_resource
-  @jvmOptions = Liberty::JvmOptions.new(node, new_resource.server_name)
-end
+default_action :add
