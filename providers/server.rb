@@ -12,6 +12,20 @@ action :create do
     user node['wlp']['user']
     group node['wlp']['group']
   end
+
+  ruby_block "jvm.options for #{new_resource.server_name}" do
+    block do
+      if new_resource.jvmOptions
+        options = Liberty::JvmOptions.new(node, new_resource.server_name)
+        new_resource.jvmOptions.each do | option |
+          options.add(option)
+        end
+        options.save
+      end
+    end
+  end
+
+  new_resource.updated_by_last_action(true)
 end
 
 action :start do

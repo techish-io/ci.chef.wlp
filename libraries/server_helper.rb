@@ -17,24 +17,13 @@ module Liberty
   class ServerHelper
     
     def initialize(node)
-      @node = node.to_hash
-      @baseDir = @node['wlp']['base_dir']
-    end
-
-    def installDirectory
-      return "#{@baseDir}/wlp"
-    end
-
-    def userDirectory
-      # TODO: needs to be updated
-      return "#{@baseDir}/wlp/usr"
+      @utils = Utils.new(node)
     end
     
     def exists?(server_name)
-      serverDir = "#{userDirectory}/servers/#{server_name}"
-      return ::File.exists?(serverDir)
+      return @utils.serverDirectoryExists?(server_name)
     end
-
+    
     def running?(server_name)
       if exists?(server_name)
         status = runCommand("status #{server_name}")
@@ -75,7 +64,7 @@ module Liberty
     private
 
     def runCommand(arguments) 
-      command = Mixlib::ShellOut.new("#{installDirectory}/bin/server #{arguments}", :user => @node['wlp']['user'], :group => @node['wlp']['group'])
+      command = Mixlib::ShellOut.new("#{@utils.installDirectory}/bin/server #{arguments}", :user => @utils.user, :group => @utils.group)
       command.run_command
     end
     
