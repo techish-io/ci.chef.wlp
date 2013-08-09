@@ -14,5 +14,5 @@ suites:
   run_list: ["recipe[wlp]"]
   attributes:
     wlp:
-      wasdev:
+      archive:
         accept_license: "true"
