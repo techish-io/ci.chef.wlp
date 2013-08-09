@@ -13,9 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-actions :add, :remove
+actions :set, :unset
 
 attribute :server_name, :kind_of => String, :default => nil
 attribute :properties, :kind_of => [Hash, Array], :default => nil
 
-default_action :add
+default_action :set
+

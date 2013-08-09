@@ -18,18 +18,16 @@ module Liberty
     
     def initialize(node)
       @node = node.to_hash
-      @baseDir = @node['wlp']['base_dir']
     end
 
     def installDirectory
-      return "#{@baseDir}/wlp"
+      return "#{@node['wlp']['base_dir']}/wlp"
     end
 
     def userDirectory
-      # TODO: needs to be updated
-      return "#{@baseDir}/wlp/usr"
+      return @node['wlp']['user_dir'] || "#{installDirectory}/usr"
     end
-
+    
     def serversDirectory
       return "#{userDirectory}/servers"
     end

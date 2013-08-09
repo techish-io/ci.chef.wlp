@@ -7,8 +7,9 @@ action :create do
   if template
     args << " --template=#{template}"
   end
+  installDir = @utils.installDirectory
   execute "bin/server #{args}" do
-    command "#{node['wlp']['base_dir']}/wlp/bin/server #{args}"
+    command "#{installDir}/bin/server #{args}"
     user node['wlp']['user']
     group node['wlp']['group']
   end
@@ -33,6 +34,8 @@ action :start do
     action :nothing
   end
 
+  installDir = @utils.installDirectory
+
   template "/etc/init.d/wlp-#{new_resource.server_name}" do
     cookbook "wlp"
     source "init.d.erb"
@@ -43,7 +46,7 @@ action :start do
     variables(
       "serverName" => new_resource.server_name,
       "cleanStart" => new_resource.clean, 
-      "installDir" => "#{node['wlp']['base_dir']}/wlp"
+      "installDir" => installDir
     )
 
     notifies :restart, "service[wlp-#{new_resource.server_name}]", :delayed
@@ -60,4 +63,8 @@ action :stop do
   service "wlp-#{new_resource.server_name}" do
     action [ :stop ]
   end
+end
+
+def load_current_resource
+  @utils = Liberty::Utils.new(node)
 end

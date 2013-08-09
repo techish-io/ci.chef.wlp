@@ -61,7 +61,7 @@ module Liberty
       return @modified
     end
 
-    def add(name, value)
+    def set(name, value)
       if value == get(name)
         return false
       else 
@@ -71,7 +71,7 @@ module Liberty
       end
     end
 
-    def remove(name)
+    def unset(name)
       if @properties.delete(name)
         @modified = true
         return true

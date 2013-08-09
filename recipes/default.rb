@@ -36,3 +36,20 @@ directory wlp_base_dir do
 end
 
 include_recipe "wlp::#{node[:wlp][:install_method]}_install"
+
+wlp_user_dir = node[:wlp][:user_dir]
+if wlp_user_dir
+    # Ensure the user directory is created
+    directory wlp_user_dir do
+      group wlp_group
+      owner wlp_user
+      mode "0755"
+      recursive true
+    end
+    
+    # Set WLP_USER_DIR in etc/server.env
+    wlp_server_env "set_user_dir" do
+      properties "WLP_USER_DIR" => node[:wlp][:user_dir]
+      action :set
+    end
+end
