@@ -15,7 +15,6 @@
 
 default[:wlp][:user] = "wlp"
 default[:wlp][:group] = "wlp-admin"
-
 default[:wlp][:base_dir] = "/opt/was/liberty"
 
 # Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location.
