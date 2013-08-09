@@ -15,7 +15,6 @@
 
 default[:wlp][:user] = "wlp"
 default[:wlp][:group] = "wlp-admin"
-
 default[:wlp][:base_dir] = "/opt/was/liberty"
 
 # Install method - set it to 'archive' or 'zip'
