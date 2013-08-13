@@ -47,7 +47,7 @@ if node[:wlp][:archive][:extended][:install]
 end
 
 # Used to determine whether extras archive is already installed
-extras_testfile = "#{node[:wlp][:archive][:extras][:base_dir]}/wlp"
+extras_dir = "#{node[:wlp][:archive][:extras][:base_dir]}/wlp"
 
 # Fetch the WAS Liberty Profile extras content
 if node[:wlp][:archive][:extras][:install]
@@ -58,11 +58,11 @@ if node[:wlp][:archive][:extras][:install]
     user node[:wlp][:user]
     group node[:wlp][:group]
     checksum node[:wlp][:archive][:extras][:checksum]
-    not_if { ::File.exists?(extras_testfile) }
+    not_if { ::File.exists?(extras_dir) }
   end
 end
 
-# Install java - should we include some options in case the user wants Oracle or IBM java?
+# Install java
 include_recipe "java"
 
 # Install the WAS Liberty Profile
@@ -89,10 +89,9 @@ end
 if node[:wlp][:archive][:extras][:install]
   execute "install #{extras_file}" do
     cwd node[:wlp][:base_dir]
-    # We expand into /tmp and cp because the jar installer fails if the wlp directory already exists.
     command "java -jar #{Chef::Config[:file_cache_path]}/#{extras_file} --acceptLicense #{node[:wlp][:archive][:extras][:base_dir]}" 
     user node[:wlp][:user]
     group node[:wlp][:group]
-    not_if { ::File.exists?(extras_testfile) }
+    not_if { ::File.exists?(extras_dir) }
   end
 end

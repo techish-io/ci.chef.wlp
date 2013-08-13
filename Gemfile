@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'foodcritic'
+gem "chefspec"
 
 group :integration do
   gem 'berkshelf'
