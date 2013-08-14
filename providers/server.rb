@@ -60,8 +60,28 @@ end
 
 
 action :stop do
-  service "wlp-#{new_resource.server_name}" do
-    action [ :stop ]
+  serverDirectory = @utils.serverDirectory(new_resource.server_name)
+  if ::File.exists?(serverDirectory)
+    service "wlp-#{new_resource.server_name}" do
+      action :stop
+    end
+  end
+end
+
+
+action :destroy do
+  serverDirectory = @utils.serverDirectory(new_resource.server_name)
+  if ::File.exists?(serverDirectory)
+    # try to stop it first
+    service "wlp-#{new_resource.server_name}" do
+      action :stop
+    end
+
+    # delete the directory
+    directory serverDirectory do
+      recursive true
+      action :delete
+    end
   end
 end
 

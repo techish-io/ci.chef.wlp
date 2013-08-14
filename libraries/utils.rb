@@ -32,9 +32,12 @@ module Liberty
       return "#{userDirectory}/servers"
     end
 
+    def serverDirectory(server_name)
+      return "#{serversDirectory}/#{server_name}"
+    end
+
     def serverDirectoryExists?(server_name)
-      serverDir = "#{serversDirectory}/#{server_name}"
-      return ::File.exists?(serverDir)
+      return ::File.exists?(serverDirectory(server_name))
     end
     
     def user

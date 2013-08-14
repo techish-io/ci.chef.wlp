@@ -8,6 +8,8 @@ task :default => :all
 
 task :all => [:knife_test, :foodcritic, :rspec]
 
+task :syntax => :knife_test
+
 desc "Runs 'knife cookbook test'"
 task :knife_test do
   sh "bundle exec knife cookbook test -o .. #{cookbook_name}"

@@ -1,4 +1,4 @@
-actions :start, :stop, :create
+actions :start, :stop, :create, :destroy
 
 attribute :server_name, :kind_of => String, :name_attribute => true
 
