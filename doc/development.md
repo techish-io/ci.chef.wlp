@@ -2,16 +2,21 @@
 
 To work on the Liberty cookbook first ensure you have [Bundler][] installed.
 
-  $ gem install bundler
+```bash
+$ gem install bundler
+```
 
 Next, use [Bundler][] to install Liberty cookbook dependencies:
 
-  $ bundle install
+```bash
+$ bundle install
+```
 
 Finally, use [Rake][] to execute various tasks. For example:
 
-  $ rake all
-
+```bash
+$ rake all
+```
 
 [Bundler]: http://bundler.io/
 [Rake]: http://rake.rubyforge.org/
