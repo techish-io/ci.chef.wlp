@@ -17,15 +17,21 @@ wlp_user = node[:wlp][:user]
 wlp_group = node[:wlp][:group]
 wlp_base_dir = node[:wlp][:base_dir]
 
-group wlp_group do
+# Don't create 'root' group - allows execution as root
+if wlp_group != "root"
+  group wlp_group do
+  end
 end
 
-user wlp_user do
-  comment 'Liberty Profile Server'
-  gid wlp_group
-  home wlp_base_dir
-  shell '/bin/bash'
-  system true
+# Don't create 'root' user - allows execution as root
+if wlp_user != "root"
+  user wlp_user do
+    comment 'Liberty Profile Server'
+    gid wlp_group
+    home wlp_base_dir
+    shell '/bin/bash'
+    system true
+  end
 end
 
 directory wlp_base_dir do

@@ -8,11 +8,37 @@ platforms:
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-11.4.4.box
   run_list:
   - recipe[apt]
+- name: centos-6.4
+  driver_config:
+    box: opscode-centos-6.4
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_chef-11.4.4.box
 
 suites:
-- name: default
-  run_list: ["recipe[wlp]"]
+- name: basic
+  run_list: 
+  - recipe[minitest-handler]
+  - recipe[wlp_test::basic]
   attributes:
     wlp:
+      user: root
+      group: root
       archive:
-        accept_license: "true"
+        accept_license: true
+
+- name: custom
+  run_list: 
+  - recipe[minitest-handler]
+  - recipe[wlp_test::custom]
+  attributes:
+    wlp:
+      user: root
+      group: root
+      base_dir: /opt/liberty
+      user_dir: /opt/liberty/user
+      archive:
+        accept_license: true
+        extended:
+          install: false
+        extras:
+          install: true
+          base_dir: /opt/liberty-extra

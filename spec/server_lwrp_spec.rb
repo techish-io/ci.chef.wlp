@@ -37,6 +37,10 @@ describe "wlp_server" do
 
     ### TODO: Check for notifications (needs newer ChefSpec)
 
+    it "enable service at boot" do
+      expect(chef_run).to set_service_to_start_on_boot("wlp-#{serverName}")
+    end
+
     it "start service" do
       expect(chef_run).to start_service("wlp-#{serverName}")
     end
@@ -71,12 +75,14 @@ describe "wlp_server" do
       File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(true)
       chef_run.converge "test::server_basic"
       expect(chef_run).to stop_service("wlp-#{serverName}")
+      expect(chef_run).to set_service_to_not_start_on_boot("wlp-#{serverName}")
     end
 
     it "not stop service" do
       File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(false)
       chef_run.converge "test::server_basic"
       expect(chef_run).not_to stop_service("wlp-#{serverName}")
+      expect(chef_run).not_to set_service_to_not_start_on_boot("wlp-#{serverName}")
     end
 
   end
@@ -109,6 +115,7 @@ describe "wlp_server" do
       ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(true)
       chef_run.converge "test::server_basic"
       expect(chef_run).to stop_service("wlp-#{serverName}")
+      expect(chef_run).to set_service_to_not_start_on_boot("wlp-#{serverName}")
       expect(chef_run).to delete_directory(serverDir)
     end
 
@@ -116,6 +123,7 @@ describe "wlp_server" do
       ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(false)
       chef_run.converge "test::server_basic"
       expect(chef_run).not_to stop_service("wlp-#{serverName}")
+      expect(chef_run).not_to set_service_to_not_start_on_boot("wlp-#{serverName}")
       expect(chef_run).not_to delete_directory(serverDir)
     end
 

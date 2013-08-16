@@ -27,6 +27,11 @@ task :rspec do
   sh "bundle exec rspec #{cookbooks_path}/wlp/spec"
 end
 
+desc "Runs 'kitchen test'"
+task :kitchen_test do
+  sh "bundle exec kitchen test"
+end
+
 
 
 
