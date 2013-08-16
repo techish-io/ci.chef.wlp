@@ -16,20 +16,25 @@
 install_dir = "#{node[:wlp][:base_dir]}/wlp"
 
 zip_uri = ::URI.parse(node[:wlp][:zip][:url])
-zip_file = ::File.basename(zip_uri.path)
+zip_filename = ::File.basename(zip_uri.path)
 
-remote_file "#{Chef::Config[:file_cache_path]}/#{zip_file}" do
-  source node[:wlp][:zip][:url]
-  user node[:wlp][:user]
-  group node[:wlp][:group]
-  not_if { ::File.exists?(install_dir) }
+if zip_uri.scheme == "file"
+  zip_file = zip_uri.path
+else
+  zip_file = "#{Chef::Config[:file_cache_path]}/#{zip_filename}" 
+  remote_file zip_file do
+    source node[:wlp][:zip][:url]
+    user node[:wlp][:user]
+    group node[:wlp][:group]
+    not_if { ::File.exists?(install_dir) }
+  end
 end
 
 package 'unzip'
 
-execute "install #{zip_file}" do
+execute "install #{zip_filename}" do
   cwd node[:wlp][:base_dir]
-  command "unzip #{Chef::Config[:file_cache_path]}/#{zip_file}" 
+  command "unzip #{zip_file}" 
   user node[:wlp][:user]
   group node[:wlp][:group]
   not_if { ::File.exists?(install_dir) }

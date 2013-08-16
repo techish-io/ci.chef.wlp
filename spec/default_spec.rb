@@ -196,7 +196,7 @@ describe "wlp::default" do
 
   end
 
-  ### Install using zip file
+  ### Install using zip 
   context "zip::basic" do
     let (:chef_run) { 
       chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
@@ -237,6 +237,106 @@ describe "wlp::default" do
     end
 
   end
+
+  ### Install using zip
+  context "zip::basic file url" do
+    let (:chef_run) { 
+      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["install_method"] = "zip"
+      chef_run.node.set["wlp"]["zip"]["url"] = "file:///mnt/shared/wlp.zip"
+      chef_run.converge "wlp::default"
+    }
+
+    it "include zip_install" do
+      expect(chef_run).to include_recipe("wlp::zip_install")
+    end
+
+    it "create group" do
+      expect(chef_run).to create_group(chef_run.node["wlp"]["group"])
+    end
+
+    it "create user" do
+      expect(chef_run).to create_user(chef_run.node["wlp"]["user"])
+    end
+
+    it "create base directory" do
+      baseDir = chef_run.node["wlp"]["base_dir"]
+      expect(chef_run).to create_directory(baseDir)
+      dir = chef_run.directory(baseDir)
+      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+    end
+
+    it "install unzip package" do
+      expect(chef_run).to install_package("unzip")
+    end
+
+    it "download wlp.zip" do
+      expect(chef_run).not_to create_remote_file("/var/chef/cache/wlp.zip")
+    end
+
+    it  "unzip wlp.zip" do
+      expect(chef_run).to execute_command("unzip /mnt/shared/wlp.zip").with(:cwd => chef_run.node["wlp"]["base_dir"], :user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+    end
+
+  end
+
+  # Test handling of file:// urls
+  context "archive::all file url" do
+    let (:chef_run) { 
+      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "file:///mnt/shared/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "file:/mnt/shared/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "file:///root/extras.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
+      chef_run.converge "wlp::default"
+    }
+
+    it "include archive_install" do
+      expect(chef_run).to include_recipe("wlp::archive_install")
+    end
+
+    it "create group" do
+      expect(chef_run).to create_group(chef_run.node["wlp"]["group"])
+    end
+
+    it "create user" do
+      expect(chef_run).to create_user(chef_run.node["wlp"]["user"])
+    end
+
+    it "create base directory" do
+      baseDir = chef_run.node["wlp"]["base_dir"]
+      expect(chef_run).to create_directory(baseDir)
+      dir = chef_run.directory(baseDir)
+      expect(dir).to be_owned_by(chef_run.node["wlp"]["user"], chef_run.node["wlp"]["group"])
+    end
+
+    it "download runtime.jar" do
+      expect(chef_run).not_to create_remote_file("/var/chef/cache/runtime.jar")
+    end
+
+    it "download extended.jar" do
+      expect(chef_run).not_to create_remote_file("/var/chef/cache/extended.jar")
+    end
+
+    it "not download extras.jar" do
+      expect(chef_run).not_to create_remote_file("/var/chef/cache/extras.jar")
+    end
+
+    it  "install runtime.jar" do
+      expect(chef_run).to execute_command("java -jar /mnt/shared/runtime.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+    end
+
+    it  "install extended.jar" do
+      expect(chef_run).to execute_command("java -jar /mnt/shared/extended.jar --acceptLicense #{chef_run.node["wlp"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+    end
+
+    it  "install extras.jar" do
+      expect(chef_run).to execute_command("java -jar /root/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
+    end
+
+  end
+
 end
 
 
