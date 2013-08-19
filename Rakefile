@@ -28,7 +28,7 @@ task :rspec do
 end
 
 desc "Runs 'kitchen test'"
-task :kitchen_test do
+task :kitchen do
   sh "bundle exec kitchen test"
 end
 
