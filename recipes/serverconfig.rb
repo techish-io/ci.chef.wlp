@@ -33,7 +33,8 @@ node[:wlp][:servers].each_pair do |key, value|
         :servername => value["servername"],
         :description => value["description"],
         :features => value["features"],
-        :httpendpoints => value["httpendpoints"]
+        :httpendpoints => value["httpendpoints"],
+        :includes => value["includes"]
       })
     end
     # Add more files to be rendered here

@@ -15,4 +15,10 @@
     />
 <% end -%>
 
+<% if @includes != nil && @includes.size > 0 -%>
+  <% @includes.each do |include| -%>
+    <include location="<%= include %>" />
+  <% end -%>
+<% end -%>
+
 </server>
