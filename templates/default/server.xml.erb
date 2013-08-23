@@ -1,18 +1,22 @@
 <server description="<%= @description %>">
 
     <!-- Enable features -->
+<% if @features != nil && @features.size > 0 -%>
     <featureManager>
-<% @features.each do |feature| -%>
+  <% @features.each do |feature| -%>
         <feature><%= feature %></feature>
-<% end -%>
+  <% end -%>
     </featureManager>
+<% end -%>
 
-<% @httpendpoints.each do |httpendpoint| -%>
-    <httpEndpoint id="<%= httpendpoint["id"] %>"
-                  host="<%= httpendpoint["host"] %>"
-                  httpPort="<%= httpendpoint["httpport"] %>"
-                  httpsPort="<%= httpendpoint["httpsport"] %>" 
+<% if @httpendpoints != nil && @httpendpoints.size > 0 -%>
+  <% @httpendpoints.each do |httpendpoint| -%>
+    <httpEndpoint id="<%= httpendpoint["id"] -%>" 
+      <% if httpendpoint["host"] != nil -%> host="<%= httpendpoint["host"] %>" <% end -%>
+      <% if httpendpoint["httpport"] != nil -%> httpPort="<%= httpendpoint["httpport"] %>" <% end -%>
+      <% if httpendpoint["httpsport"] != nil -%> httpsPort="<%= httpendpoint["httpsport"] %>" <% end -%>
     />
+  <% end -%>
 <% end -%>
 
 <% if @includes != nil && @includes.size > 0 -%>
