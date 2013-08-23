@@ -59,7 +59,7 @@ node[:wlp][:servers].each_pair do |key, value|
 
     directory "#{wlp_user_dir}/servers/#{value[:servername]}" do
       mode   "0775"
-      owner  "#{wlp_group}"
+      owner  "#{wlp_user}"
       group  "#{wlp_group}"
     end
 
@@ -67,7 +67,7 @@ node[:wlp][:servers].each_pair do |key, value|
     template "#{wlp_user_dir}/servers/#{value[:servername]}/server.xml" do
       source "server.xml.erb"
       mode   "0775"
-      owner  "#{wlp_group}"
+      owner  "#{wlp_user}"
       group  "#{wlp_group}"
       variables ({
         :servername => value["servername"],
