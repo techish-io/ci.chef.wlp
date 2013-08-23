@@ -128,4 +128,42 @@ describe "wlp_server" do
     end
 
   end
+
+  context "create" do
+    let (:chef_run) { 
+      chef_run = ChefSpec::ChefRunner.new(
+        :platform => "ubuntu", 
+        :version => "12.04", 
+        :step_into => [ "wlp_server" ],     
+        :cookbook_path => ["..", "spec/cookbooks"])
+      chef_run.node.set["wlp"]["base_dir"] = "/liberty"
+      chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      return chef_run
+    }
+
+    let (:serverName) {
+      "testCreateServer"
+    }
+
+    let (:serverDir) {
+      "#{chef_run.node['wlp']['base_dir']}/wlp/usr/servers/#{serverName}"
+    }
+
+    before (:each) { 
+      ::File.stub(:exists?).and_call_original
+    }
+
+    it "create server" do
+      ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(false)
+      chef_run.converge "test::server_basic"
+      expect(chef_run).to execute_command("#{chef_run.node['wlp']['base_dir']}/wlp/bin/server create #{serverName}")
+    end
+
+    it "does not create server" do
+      ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(true)
+      chef_run.converge "test::server_basic"
+      expect(chef_run).not_to execute_command("#{chef_run.node['wlp']['base_dir']}/wlp/bin/server create #{serverName}")
+    end
+
+  end
 end

@@ -13,18 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO: Replace by a library call?
 action :create do
-  args = "create #{new_resource.server_name}"
-  template = new_resource.template
-  if template
-    args << " --template=#{template}"
-  end
-  installDir = @utils.installDirectory
-  execute "bin/server #{args}" do
-    command "#{installDir}/bin/server #{args}"
-    user node[:wlp][:user]
-    group node[:wlp][:group]
+  if !@utils.serverDirectoryExists?(new_resource.server_name)
+    # TODO: Replace by a library call?
+    args = "create #{new_resource.server_name}"
+    template = new_resource.template
+    if template
+      args << " --template=#{template}"
+    end
+    installDir = @utils.installDirectory
+    execute "bin/server #{args}" do
+      command "#{installDir}/bin/server #{args}"
+      user node[:wlp][:user]
+      group node[:wlp][:group]
+    end
+
+    new_resource.updated_by_last_action(true)
   end
 
   wlp_jvm_options "jvm.options for #{new_resource.server_name}" do
@@ -37,7 +41,6 @@ action :create do
     properties new_resource.serverEnv
   end
 
-  new_resource.updated_by_last_action(true)
 end
 
 

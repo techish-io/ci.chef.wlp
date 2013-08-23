@@ -17,15 +17,17 @@ SERVER_NAME="<%= @serverName %>"
 WLP_USER="<%=node['wlp']['user']%>"
 
 start() {
-  sudo -E -u $WLP_USER <%= @authBind ? "authbind --deep" : "" %> ${WLP_INSTALL_DIR}/bin/server start $SERVER_NAME <%= @cleanStart ? "--clean" : "" %>
+  OPTIONS=<%= @cleanStart ? "--clean" : "" %>
+  AUTH_BIND=<%= @authBind ? "authbind --deep" : "" %>
+  sudo -E -u $WLP_USER nohup $AUTH_BIND ${WLP_INSTALL_DIR}/bin/server start $SERVER_NAME $OPTIONS >/dev/null 2>&1 
   error_code=$?
   return $error_code   
 }
 
 stop() {
-  sudo -E -u $WLP_USER ${WLP_INSTALL_DIR}/bin/server stop $SERVER_NAME 
+  sudo -E -u $WLP_USER ${WLP_INSTALL_DIR}/bin/server stop $SERVER_NAME
   error_code=$?
-  return $error_code      
+  return $error_code
 }
 
 status() {

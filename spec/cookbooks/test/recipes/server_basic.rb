@@ -20,3 +20,7 @@ end
 wlp_server "testDestroyServer" do
   action :destroy
 end
+
+wlp_server "testCreateServer" do
+  action :create
+end
