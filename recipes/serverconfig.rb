@@ -14,21 +14,61 @@
 # limitations under the License.
 #
 
+wlp_user = node[:wlp][:user]
+wlp_group = node[:wlp][:group]
+wlp_base_dir = node[:wlp][:base_dir]
+
+# Don't create 'root' group - allows execution as root
+if wlp_group != "root"
+  group wlp_group do
+  end
+end
+
+# Don't create 'root' user - allows execution as root
+if wlp_user != "root"
+  user wlp_user do
+    comment 'Liberty Profile Server'
+    gid wlp_group
+    home wlp_base_dir
+    shell '/bin/bash'
+    system true
+  end
+end
+
+wlp_user_dir = node[:wlp][:user_dir]
+if wlp_user_dir
+    # Ensure the user directory is created
+    directory wlp_user_dir do
+      group wlp_group
+      owner wlp_user
+      mode "0755"
+      recursive true
+    end
+    
+    # Set WLP_USER_DIR in etc/server.env
+    wlp_server_env "set_user_dir" do
+      properties "WLP_USER_DIR" => node[:wlp][:user_dir]
+      action :set
+    end
+else
+    wlp_user_dir = "#{wlp_base_dir}" + "/wlp/usr"
+end
+
 node[:wlp][:servers].each_pair do |key, value|
   if value["enabled"] == true
 
-    directory "#{node[:wlp][:base_dir]}/wlp/usr/servers/#{value[:servername]}" do
-      mode   "0755"
-      owner  "root"
-      group  "root"
+    directory "#{wlp_user_dir}/servers/#{value[:servername]}" do
+      mode   "0775"
+      owner  "#{wlp_group}"
+      group  "#{wlp_group}"
     end
 
     # First render the server.xml
-    template "#{node[:wlp][:base_dir]}/wlp/usr/servers/#{value[:servername]}/server.xml" do
+    template "#{wlp_user_dir}/servers/#{value[:servername]}/server.xml" do
       source "server.xml.erb"
-      mode   "0640"
-      owner  "root"
-      group  "root"
+      mode   "0775"
+      owner  "#{wlp_group}"
+      group  "#{wlp_group}"
       variables ({
         :servername => value["servername"],
         :description => value["description"],
