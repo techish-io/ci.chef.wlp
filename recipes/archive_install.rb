@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+=begin
+#<
+Installs WebSphere Application Server Liberty Profile from jar archive files. 
+This recipe is called by the `default` recipe and should not be used directly.
+#>
+=end
+
 unless node[:wlp][:archive][:accept_license]
   raise "You must accept license to install WebSphere Application Server Liberty Profile."
 end

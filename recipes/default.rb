@@ -13,6 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+=begin
+#<
+Installs WebSphere Application Server Liberty Profile. Liberty profile can be 
+installed using jar file archives or from a zip file based on the `node[:wlp][:install_method]` setting.
+By default, Liberty profile is installed using the jar archives downloaded from the WASdev site.
+#>
+=end
+
 wlp_user = node[:wlp][:user]
 wlp_group = node[:wlp][:group]
 wlp_base_dir = node[:wlp][:base_dir]

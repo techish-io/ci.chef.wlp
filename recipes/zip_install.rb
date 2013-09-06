@@ -13,6 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+=begin
+#<
+Installs WebSphere Application Server Liberty Profile from a zip file. 
+This recipe is called by the `default` recipe and should not be used directly.
+#>
+=end
+
 install_dir = "#{node[:wlp][:base_dir]}/wlp"
 
 zip_uri = ::URI.parse(node[:wlp][:zip][:url])
