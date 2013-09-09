@@ -20,7 +20,28 @@ It provides recipes, resources, and libraries for creating, managing, and config
 
 # Attributes
 
-*No attributes defined*
+* `node[:wlp][:user]` - User name under which the server will be installed and running. Defaults to `wlp`.
+* `node[:wlp][:group]` - Group name under which the server will be installed and running. Defaults to `wlp-admin`.
+* `node[:wlp][:base_dir]` - Base installation directory. Defaults to `/opt/was/liberty`.
+* `node[:wlp][:user_dir]` - Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location. Defaults to `nil`.
+* `node[:wlp][:install_method]` - Installation method. Set it to 'archive' or 'zip'. Defaults to `archive`.
+* `node[:wlp][:archive][:base_url]` - Base URL location for downloading the runtime, extended, and extras Liberty profile archives. 
+By default the archives are downloaded from WASdev repository. Defaults to `http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.0/`.
+* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.0.jar`.
+* `node[:wlp][:archive][:runtime][:checksum]` - Checksum value for the runtime archive. Defaults to `4032747299111a580a9ef476d539fb0f67bf6c98894e01db4555d94d35bb5175`.
+* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.0.jar`.
+* `node[:wlp][:archive][:extended][:checksum]` - Checksum value for the extended archive. Defaults to `b3df906bd7ddeafa58121c96577ac08054208f16cb874a8684b6b132267e23a0`.
+* `node[:wlp][:archive][:extended][:install]` - Controls whether the extended archive should be downloaded and installed. Defaults to `true`.
+* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.0.jar`.
+* `node[:wlp][:archive][:extras][:checksum]` - Checksum value for the extras archive. Defaults to `7ff244a92260f032ad67733070df7f581a1a97628e01aebde808148b981396d3`.
+* `node[:wlp][:archive][:extras][:install]` - Controls whether the extras archive should be downloaded and installed. Defaults to `false`.
+* `node[:wlp][:archive][:extras][:base_dir]` - Base installation directory of the extras archive. Defaults to `#{node[:wlp][:base_dir]}/extras`.
+* `node[:wlp][:archive][:accept_license]` - Accept license terms when doing archive-based installation. 
+Must be set to `true` otherwise installation will fail. Defaults to `false`.
+* `node[:wlp][:zip][:url]` - URL location to a zip file containing Liberty profile installation files. Must be set 
+only when `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
+* `node[:wlp][:servers][:defaultserver]` -  Defaults to `{ ... }`.
+* `node[:wlp][:servers][:airport]` -  Defaults to `{ ... }`.
 
 # Recipes
 
