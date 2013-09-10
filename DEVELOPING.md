@@ -63,7 +63,7 @@ See the [knife-cookbook-doc][] tool documentation on details how to document the
 To regenerate the `README.md` file run the following command:
 
 ```bash
-$ rake knife_doc
+$ rake doc
 ```
 
 Don't forget to check-in and commit the modified `README.md` file.

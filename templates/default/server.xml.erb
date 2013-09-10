@@ -9,12 +9,12 @@
     </featureManager>
 <% end -%>
 
-<% if @httpendpoints != nil && @httpendpoints.size > 0 -%>
-  <% @httpendpoints.each do |httpendpoint| -%>
-    <httpEndpoint id="<%= httpendpoint["id"] -%>" 
-      <% if httpendpoint["host"] != nil -%> host="<%= httpendpoint["host"] %>" <% end -%>
-      <% if httpendpoint["httpport"] != nil -%> httpPort="<%= httpendpoint["httpport"] %>" <% end -%>
-      <% if httpendpoint["httpsport"] != nil -%> httpsPort="<%= httpendpoint["httpsport"] %>" <% end -%>
+<% if @httpEndpoints != nil && @httpEndpoints.size > 0 -%>
+  <% @httpEndpoints.each do |httpEndpoint| -%>
+    <httpEndpoint id="<%= httpEndpoint["id"] -%>" 
+      <% if httpEndpoint["host"] != nil -%> host="<%= httpEndpoint["host"] %>" <% end -%>
+      <% if httpEndpoint["httpPort"] != nil -%> httpPort="<%= httpEndpoint["httpPort"] %>" <% end -%>
+      <% if httpEndpoint["httpsPort"] != nil -%> httpsPort="<%= httpEndpoint["httpsPort"] %>" <% end -%>
     />
   <% end -%>
 <% end -%>

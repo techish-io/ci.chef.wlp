@@ -40,14 +40,13 @@ By default the archives are downloaded from WASdev repository. Defaults to `http
 Must be set to `true` otherwise installation will fail. Defaults to `false`.
 * `node[:wlp][:zip][:url]` - URL location to a zip file containing Liberty profile installation files. Must be set 
 only when `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
-* `node[:wlp][:servers][:defaultserver]` -  Defaults to `{ ... }`.
-* `node[:wlp][:servers][:airport]` -  Defaults to `{ ... }`.
+* `node[:wlp][:servers][:defaultserver]` - Defines `defaultServer` server instance. Defaults to `{ ... }`.
 
 # Recipes
 
 * [wlp::archive_install](#wlparchive_install) - Installs WebSphere Application Server Liberty Profile from jar archive files.
 * [wlp::default](#wlpdefault) - Installs WebSphere Application Server Liberty Profile.
-* wlp::serverconfig
+* [wlp::serverconfig](#wlpserverconfig) - Creates Liberty profile server instance for each `node[:wlp][:servers][<server_name>]` definition.
 * [wlp::zip_install](#wlpzip_install) - Installs WebSphere Application Server Liberty Profile from a zip file.
 
 ## wlp::archive_install
@@ -60,6 +59,27 @@ This recipe is called by the `default` recipe and should not be used directly.
 Installs WebSphere Application Server Liberty Profile. Liberty profile can be 
 installed using jar file archives or from a zip file based on the `node[:wlp][:install_method]` setting.
 By default, Liberty profile is installed using the jar archives downloaded from the WASdev site.
+
+## wlp::serverconfig
+
+Creates Liberty profile server instance for each `node[:wlp][:servers][<server_name>]` definition.
+The following definition creates a simple `airport` server instance:
+```ruby
+node[:wlp][:servers][:airport] = {
+  "enabled" => true,
+  "servername" => "airport",
+  "description" => "Airport Demo App",
+  "features" => [ "jsp-2.2" ],
+  "httpEndpoints" => [
+    {
+      "id" => "defaultHttpEndpoint",
+      "host" => "*",
+      "httpPort" => "9080",
+      "httpsPort" => "9443"
+    }
+  ]
+}
+```
 
 ## wlp::zip_install
 

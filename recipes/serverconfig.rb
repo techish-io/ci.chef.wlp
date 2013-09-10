@@ -1,5 +1,5 @@
 # Cookbook Name:: wlp
-# Recipe:: serverconfig
+# Attributes:: serverconfig
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,35 +14,55 @@
 # limitations under the License.
 #
 
+=begin
+#<
+Creates Liberty profile server instance for each `node[:wlp][:servers][<server_name>]` definition.
+The following definition creates a simple `airport` server instance:
+```ruby
+node[:wlp][:servers][:airport] = {
+  "enabled" => true,
+  "servername" => "airport",
+  "description" => "Airport Demo App",
+  "features" => [ "jsp-2.2" ],
+  "httpEndpoints" => [
+    {
+      "id" => "defaultHttpEndpoint",
+      "host" => "*",
+      "httpPort" => "9080",
+      "httpsPort" => "9443"
+    }
+  ]
+}
+```
+#>
+=end
+
 wlp_user = node[:wlp][:user]
 wlp_group = node[:wlp][:group]
-wlp_base_dir = node[:wlp][:base_dir]
 
-wlp_user_dir = node[:wlp][:user_dir]
-if !wlp_user_dir
-  wlp_user_dir = "#{wlp_base_dir}" + "/wlp/usr"
-end
+utils = Liberty::Utils.new(node)
+servers_dir = utils.serversDirectory
 
 node[:wlp][:servers].each_pair do |key, value|
   if value["enabled"] == true
 
-    directory "#{wlp_user_dir}/servers/#{value[:servername]}" do
+    directory "#{servers_dir}/#{value[:servername]}" do
       mode   "0775"
-      owner  "#{wlp_user}"
-      group  "#{wlp_group}"
+      owner  wlp_user
+      group  wlp_group
     end
 
     # First render the server.xml
-    template "#{wlp_user_dir}/servers/#{value[:servername]}/server.xml" do
+    template "#{servers_dir}/#{value[:servername]}/server.xml" do
       source "server.xml.erb"
       mode   "0775"
-      owner  "#{wlp_user}"
-      group  "#{wlp_group}"
+      owner  wlp_user
+      group  wlp_group
       variables ({
         :servername => value["servername"],
         :description => value["description"],
         :features => value["features"],
-        :httpendpoints => value["httpendpoints"],
+        :httpEndpoints => value["httpEndpoints"],
         :includes => value["includes"]
       })
     end

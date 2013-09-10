@@ -13,32 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#<> Defines `defaultServer` server instance.
 default[:wlp][:servers][:defaultserver] = {
   "enabled" => true,
   "servername" => "defaultServer",
   "description" => "Default Server",
   "features" => [ "jsp-2.2" ],
-  "httpendpoints" => [
+  "httpEndpoints" => [
     {
       "id" => "defaultHttpEndpoint",
       "host" => "*",
-      "httpport" => "9080",
-      "httpsport" => "9443"
-    }
-  ]
-}
-
-default[:wlp][:servers][:airport] = {
-  "enabled" => false,
-  "servername" => "airport",
-  "description" => "Airport Demo App",
-  "features" => [ "jsp-2.2" ],
-  "httpendpoints" => [
-    {
-      "id" => "defaultHttpEndpoint",
-      "host" => "*",
-      "httpport" => "9080",
-      "httpsport" => "9443"
+      "httpPort" => "9080",
+      "httpsPort" => "9443"
     }
   ]
 }

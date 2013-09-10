@@ -33,7 +33,7 @@ task :kitchen do
 end
 
 desc "Runs 'knife cookbook doc'"
-task :knife_doc do
+task :doc do
   sh "bundle exec knife cookbook doc ../#{cookbook_name}"
 end
 
