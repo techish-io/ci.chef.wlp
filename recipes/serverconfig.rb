@@ -52,16 +52,6 @@ node[:wlp][:servers].each_pair do |key, value|
       group  wlp_group
     end
 
-    xml = value["applicationsxml"]
-    if xml
-      # add the applications.xml file
-      cookbook_file "#{servers_dir}/#{value[:servername]}/#{xml}" do
-        source "applications.xml"
-        action :create_if_missing
-        mode "0775"
-      end
-    end
-
     # First render the server.xml
     template "#{servers_dir}/#{value[:servername]}/server.xml" do
       source "server.xml.erb"

@@ -1,5 +1,0 @@
-<server description="Applications">
-
-   <include location="${shared.config.dir}/HelloworldApp.xml"/>
-
-</server>
