@@ -73,3 +73,7 @@ default[:wlp][:archive][:accept_license] = false
 #>
 default[:wlp][:zip][:url] = nil
 
+# Set applications.xml file name. Set to 'nil' to not use an applications.xml by default location.
+default[:wlp][:applicationsxml] = nil
+
+
