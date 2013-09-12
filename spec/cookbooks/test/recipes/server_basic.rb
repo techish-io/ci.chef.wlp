@@ -22,5 +22,5 @@ wlp_server "testDestroyServer" do
 end
 
 wlp_server "testCreateServer" do
-  action :create
+  action :create_if_missing
 end

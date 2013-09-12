@@ -17,7 +17,8 @@
 #<
 Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
 
-@action create  Creates server instance.
+@action create  Creates/updates server instance.
+@action create_if_missing  Creates server instance only if the instance does not already exist.
 @action destroy Destroys server instance.
 @action start   Creates and starts the server instance (as an OS service). 
 @action stop    Stops the server instance (via an OS service).
@@ -25,6 +26,23 @@ Provides operations for creating, starting, stopping, and destroying Liberty pro
 @section Examples
 ```ruby
 wlp_server "myInstance" do 
+  config ({
+            "featureManager" => {
+              "feature" => [ "jsp-2.2", "jaxws-2.1" ]
+            },
+            "httpEndpoint" => {
+              "id" => "defaultHttpEndpoint",
+              "host" => "*",
+              "httpPort" => "9080",
+              "httpsPort" => "9443"
+            },
+            "application" => {
+              "id" => "example",
+              "name" => "example",
+              "type" => "war",
+              "location" => "/apps/example.war"
+            }
+          })
   jvmOptions [ "-Djava.net.ipv4=true" ]
   serverEnv "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
   action :create
@@ -45,12 +63,13 @@ end
 ```
 #>
 =end
-actions :start, :stop, :create, :destroy
+actions :start, :stop, :create, :create_if_missing, :destroy
 
 #<> @attribute server_name Name of the server instance.
 attribute :server_name, :kind_of => String, :name_attribute => true
 
-attribute :template, :kind_of => String, :default => nil
+#<> @attribute config Configuration for the server instance. If not specified, `node[:wlp][:config][:basic]` is used as the initial configuration.
+attribute :config, :kind_of => Hash, :default => nil
 
 #<> @attribute jvmOptions Instance-specific JVM options. 
 attribute :jvmOptions, :kind_of => Array, :default => []

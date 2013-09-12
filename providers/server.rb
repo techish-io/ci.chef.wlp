@@ -14,23 +14,32 @@
 # limitations under the License.
 
 action :create do
-  if !@utils.serverDirectoryExists?(new_resource.server_name)
-    # TODO: Replace by a library call?
-    args = "create #{new_resource.server_name}"
-    template = new_resource.template
-    if template
-      args << " --template=#{template}"
-    end
-    installDir = @utils.installDirectory
-    execute "bin/server #{args}" do
-      command "#{installDir}/bin/server #{args}"
-      user node[:wlp][:user]
-      group node[:wlp][:group]
-    end
+  update(new_resource)
+end
 
-    new_resource.updated_by_last_action(true)
+action :create_if_missing do
+  if @utils.serverDirectoryExists?(new_resource.server_name)
+    Chef::Log.info "#{new_resource.server_name} already exists - nothing to do."
+  else
+    update(new_resource)
+  end
+end
+
+def update(new_resource)
+  servers_dir = @utils.serversDirectory
+
+  directory "#{servers_dir}/#{new_resource.server_name}" do
+    mode   "0775"
+    user node[:wlp][:user]
+    group node[:wlp][:group]
+    recursive true
   end
 
+  config = new_resource.config || node[:wlp][:config][:basic]
+  wlp_config "#{servers_dir}/#{new_resource.server_name}/server.xml" do
+    config config
+  end
+  
   wlp_jvm_options "jvm.options for #{new_resource.server_name}" do
     server_name new_resource.server_name
     options new_resource.jvmOptions
@@ -41,8 +50,8 @@ action :create do
     properties new_resource.serverEnv
   end
 
+  new_resource.updated_by_last_action(true)
 end
-
 
 action :start do
 

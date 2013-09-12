@@ -21,6 +21,7 @@ describe "wlp_server" do
         :step_into => [ "wlp_server" ],                                
         :cookbook_path => ["..", "spec/cookbooks"])
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      chef_run.node.set["wlp"]["config"]["basic"] = {}
       chef_run.converge "test::server_basic"
     }
 
@@ -60,6 +61,7 @@ describe "wlp_server" do
         :cookbook_path => ["..", "spec/cookbooks"])
       chef_run.node.set["wlp"]["base_dir"] = "/liberty"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      chef_run.node.set["wlp"]["config"]["basic"] = {}
       return chef_run
     }
 
@@ -96,6 +98,7 @@ describe "wlp_server" do
         :cookbook_path => ["..", "spec/cookbooks"])
       chef_run.node.set["wlp"]["base_dir"] = "/liberty"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      chef_run.node.set["wlp"]["config"]["basic"] = {}
       return chef_run
     }
 
@@ -138,6 +141,7 @@ describe "wlp_server" do
         :cookbook_path => ["..", "spec/cookbooks"])
       chef_run.node.set["wlp"]["base_dir"] = "/liberty"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      chef_run.node.set["wlp"]["config"]["basic"] = {}
       return chef_run
     }
 
@@ -156,13 +160,13 @@ describe "wlp_server" do
     it "create server" do
       ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(false)
       chef_run.converge "test::server_basic"
-      expect(chef_run).to execute_command("#{chef_run.node['wlp']['base_dir']}/wlp/bin/server create #{serverName}")
+      expect(chef_run).to create_directory(serverDir)
     end
 
     it "does not create server" do
       ::File.should_receive(:exists?).with(/servers\/#{serverName}/).and_return(true)
       chef_run.converge "test::server_basic"
-      expect(chef_run).not_to execute_command("#{chef_run.node['wlp']['base_dir']}/wlp/bin/server create #{serverName}")
+      expect(chef_run).not_to create_directory(serverDir)
     end
 
   end

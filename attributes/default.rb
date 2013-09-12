@@ -73,7 +73,18 @@ default[:wlp][:archive][:accept_license] = false
 #>
 default[:wlp][:zip][:url] = nil
 
-# Set applications.xml file name. Set to 'nil' to not use an applications.xml by default location.
+#<> Defines basic server configuration when creating server instances using the `wlp_server` resource.
+default[:wlp][:config][:basic] = {
+  "featureManager" => {
+    "feature" => [ "jsp-2.2" ]
+  },
+  "httpEndpoint" => {
+    "id" => "defaultHttpEndpoint",
+    "host" => "*",
+    "httpPort" => "9080",
+    "httpsPort" => "9443"
+  }
+}
+
+#<> Set applications.xml file name. Set to 'nil' to not use an applications.xml by default location.
 default[:wlp][:applicationsxml] = nil
-
-

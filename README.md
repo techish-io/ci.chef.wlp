@@ -40,7 +40,9 @@ By default the archives are downloaded from WASdev repository. Defaults to `http
 Must be set to `true` otherwise installation will fail. Defaults to `false`.
 * `node[:wlp][:zip][:url]` - URL location to a zip file containing Liberty profile installation files. Must be set 
 only when `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
-* `node[:wlp][:servers][:defaultserver]` - Defines `defaultServer` server instance. Defaults to `{ ... }`.
+* `node[:wlp][:config][:basic]` - Defines basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `{ ... }`.
+* `node[:wlp][:applicationsxml]` - Set applications.xml file name. Set to 'nil' to not use an applications.xml by default location. Defaults to `nil`.
+* `node[:wlp][:servers][:defaultServer]` - Defines `defaultServer` server instance. Defaults to `{ ... }`.
 
 # Recipes
 
@@ -88,9 +90,42 @@ This recipe is called by the `default` recipe and should not be used directly.
 
 # Resources
 
+* [wlp_config](#wlp_config) - Generates server.xml from a hash expression.
 * [wlp_jvm_options](#wlp_jvm_options) - Adds and removes JVM options in installation-wide or instance-specific jvm.options file.
 * [wlp_server](#wlp_server) - Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
 * [wlp_server_env](#wlp_server_env) - Sets and unsets environment properties in installation-wide or instance-specific server.env file.
+
+## wlp_config
+
+Generates server.xml from a hash expression.
+
+### Actions
+
+- create: Creates/updates server.xml. Default action.
+- create_if_missing: Creates server.xml only if the file does not already exist.
+
+### Attribute Parameters
+
+- file: The server.xml file to create or update. Defaults to <code>nil</code>.
+- config: The contents of the server.xml expressed as a hash. Defaults to <code>nil</code>.
+
+### Examples
+```ruby
+wlp_config "/var/servers/airport/server.xml" do
+  config ({
+            "description" => "Airport Demo App",
+            "featureManager" => {
+              "feature" => [ "jsp-2.2" ]
+            },
+            "httpEndpoint" => {
+              "id" => "defaultHttpEndpoint",
+              "host" => "*",
+              "httpPort" => "9080",
+              "httpsPort" => "9443"
+            }
+  })
+end
+```
 
 ## wlp_jvm_options
 
@@ -138,14 +173,15 @@ Provides operations for creating, starting, stopping, and destroying Liberty pro
 ### Actions
 
 - start: Creates and starts the server instance (as an OS service). Default action.
-- create: Creates server instance.
+- create: Creates/updates server instance.
+- create_if_missing: Creates server instance only if the instance does not already exist.
 - destroy: Destroys server instance.
 - stop: Stops the server instance (via an OS service).
 
 ### Attribute Parameters
 
 - server_name: Name of the server instance.
-- template:  Defaults to <code>nil</code>.
+- config: Configuration for the server instance. If not specified, `node[:wlp][:config][:basic]` is used as the initial configuration. Defaults to <code>nil</code>.
 - jvmOptions: Instance-specific JVM options. Defaults to <code>[]</code>.
 - serverEnv: Instance-specific server environment properties. Defaults to <code>{}</code>.
 - clean: Clean all cached information when starting the server instance. Defaults to <code>false</code>.
@@ -153,6 +189,23 @@ Provides operations for creating, starting, stopping, and destroying Liberty pro
 ### Examples
 ```ruby
 wlp_server "myInstance" do 
+  config ({
+            "featureManager" => {
+              "feature" => [ "jsp-2.2", "jaxws-2.1" ]
+            },
+            "httpEndpoint" => {
+              "id" => "defaultHttpEndpoint",
+              "host" => "*",
+              "httpPort" => "9080",
+              "httpsPort" => "9443"
+            },
+            "application" => {
+              "id" => "example",
+              "name" => "example",
+              "type" => "war",
+              "location" => "/apps/example.war"
+            }
+          })
   jvmOptions [ "-Djava.net.ipv4=true" ]
   serverEnv "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
   action :create
