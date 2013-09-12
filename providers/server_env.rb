@@ -13,25 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-action :set do
+action :add do
   if new_resource.properties.kind_of?(Array)
     raise "Properties must be specified as a hash"
   else
     new_resource.properties.each do | name, value |
-      @serverEnv.set(name, value)
+      @serverEnv.add(name, value)
     end
   end
   
   new_resource.updated_by_last_action(true) if @serverEnv.save
 end
 
-action :unset do
+action :remove do
   if new_resource.properties.kind_of?(Array)
     new_resource.properties.each do | name |
-      @serverEnv.unset(name)
+      @serverEnv.remove(name)
     end
   else
     raise "Properties must be specified as an array"
+  end
+  
+  new_resource.updated_by_last_action(true) if @serverEnv.save
+end
+
+action :set do
+  if new_resource.properties.kind_of?(Array)
+    raise "Properties must be specified as a hash"
+  else
+    @serverEnv.set(new_resource.properties)
   end
   
   new_resource.updated_by_last_action(true) if @serverEnv.save

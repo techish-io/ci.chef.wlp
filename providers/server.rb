@@ -49,6 +49,7 @@ def update(new_resource)
   wlp_server_env "server.env for #{new_resource.server_name}" do
     server_name new_resource.server_name
     properties new_resource.serverEnv
+    action :set
   end
 
   new_resource.updated_by_last_action(true)

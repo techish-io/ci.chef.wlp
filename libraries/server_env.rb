@@ -61,7 +61,29 @@ module Liberty
       return @modified
     end
 
-    def set(name, value)
+    def set(properties)
+      properties = properties || {}
+
+      if !containsAll(properties)
+        @properties = properties
+        @modified = true
+      end
+    end
+    
+    def containsAll(properties)
+      if @properties.size() == properties.size()
+        @properties.each do | key, value |
+          if !properties.has_key?(key) || properties[key] != value
+            return false
+          end
+        end
+        return true
+      else
+        return false
+      end
+    end
+
+    def add(name, value)
       if value == get(name)
         return false
       else 
@@ -71,7 +93,7 @@ module Liberty
       end
     end
 
-    def unset(name)
+    def remove(name)
       if @properties.delete(name)
         @modified = true
         return true

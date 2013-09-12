@@ -15,23 +15,24 @@
 
 =begin
 #<
-Sets and unsets environment properties in installation-wide or instance-specific server.env file.
+Adds and removes environment properties in installation-wide or instance-specific server.env file.
 
-@action set   Sets environment properties in server.env file.
-@action unset Unsets environment properties in server.env file.
+@action add    Adds environment properties in server.env file. Other existing properties in the file will be preserved.
+@action remove Removes environment properties in server.env file. Other existing properties in the file will be preserved.
+@action set    Set environment properties in server.env file. Other existing properties in the file will not be preserved.
 
 @section Examples
 ```ruby
 wlp_server_env "set in instance-specific server.env" do
   server_name "myInstance"
   properties "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
-  action :set
+  action :add
 end
 
 wlp_server_env "unset in instance-specific server.env" do
   server_name "myInstance"
   properties [ "JAVA_HOME" ]
-  action :unset
+  action :remove
 end
 
 wlp_server_env "set in installation-wide server.env" do
@@ -41,12 +42,12 @@ end
 
 wlp_server_env "unset in installation-wide server.env" do
   properties [ "WLP_USER_DIR" ]
-  action :unset
+  action :remove
 end
 ```
 #>
 =end
-actions :set, :unset
+actions :add, :remove, :set
 
 #<> @attribute server_name If specified, the server.env file in the specified server instance is updated. Otherwise, the installation-wide server.env file is updated.
 attribute :server_name, :kind_of => String, :default => nil
