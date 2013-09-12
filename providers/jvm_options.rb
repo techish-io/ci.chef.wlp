@@ -29,6 +29,12 @@ action :remove do
   new_resource.updated_by_last_action(true) if @jvmOptions.save
 end
 
+action :set do
+  @jvmOptions.set(new_resource.options)
+  
+  new_resource.updated_by_last_action(true) if @jvmOptions.save
+end
+
 def load_current_resource
   @jvmOptions = Liberty::JvmOptions.new(node, new_resource.server_name)
 end

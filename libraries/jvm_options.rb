@@ -33,7 +33,7 @@ module Liberty
         fileContents = ::File.readlines(file)
         fileContents.each do | line |
           line.strip!
-          if !line.empty? && line.start_with?("#")
+          if !line.empty? && !line.start_with?("#")
             @options << line
           end
         end
@@ -56,6 +56,28 @@ module Liberty
       return @modified
     end
 
+    def set(options)
+      options = options || []
+
+      if !containsAll(options)
+        @options = options
+        @modified = true
+      end
+    end
+    
+    def containsAll(options)
+      if @options.size() == options.size()
+        @options.each do | value |
+          if !options.include?(value)
+            return false
+          end
+        end
+        return true
+      else
+        return false
+      end
+    end
+    
     def add(option)
       if index = findOption(option)
         return false
@@ -88,7 +110,7 @@ module Liberty
     def save()
       if @modified
         file = optionsFile()
-        
+
         # create "etc" parent directory if necessary
         if !@server_name
           @utils.createParentDirectory(::File.dirname(file))

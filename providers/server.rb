@@ -43,6 +43,7 @@ def update(new_resource)
   wlp_jvm_options "jvm.options for #{new_resource.server_name}" do
     server_name new_resource.server_name
     options new_resource.jvmOptions
+    action :set
   end
 
   wlp_server_env "server.env for #{new_resource.server_name}" do
