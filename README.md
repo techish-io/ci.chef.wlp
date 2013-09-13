@@ -41,8 +41,7 @@ Must be set to `true` otherwise installation will fail. Defaults to `false`.
 * `node[:wlp][:zip][:url]` - URL location to a zip file containing Liberty profile installation files. Must be set 
 only when `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
 * `node[:wlp][:config][:basic]` - Defines basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `{ ... }`.
-* `node[:wlp][:applicationsxml]` - Set applications.xml file name. Set to 'nil' to not use an applications.xml by default location. Defaults to `nil`.
-* `node[:wlp][:servers][:defaultServer]` - Defines `defaultServer` server instance. Defaults to `{ ... }`.
+* `node[:wlp][:servers][:defaultServer]` - Defines `defaultServer` server instance (when using `serverconfig` recipe). Defaults to `{ ... }`.
 
 # Recipes
 

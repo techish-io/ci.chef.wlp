@@ -85,6 +85,3 @@ default[:wlp][:config][:basic] = {
     "httpsPort" => "9443"
   }
 }
-
-#<> Set applications.xml file name. Set to 'nil' to not use an applications.xml by default location.
-default[:wlp][:applicationsxml] = nil
