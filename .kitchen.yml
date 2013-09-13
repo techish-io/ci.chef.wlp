@@ -41,3 +41,13 @@ suites:
         extras:
           install: true
           base_dir: /opt/liberty-extra
+
+- name: app
+  run_list: 
+  - recipe[minitest-handler]
+  - recipe[wlp_test::app]
+  attributes:
+    wlp:
+      user_dir: /var/liberty
+      archive:
+        accept_license: true

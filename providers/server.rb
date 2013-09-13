@@ -35,6 +35,14 @@ def update(new_resource)
     recursive true
   end
 
+  %w{apps dropins}.each do | name |
+    directory "#{servers_dir}/#{new_resource.server_name}/#{name}" do
+      mode   "0775"
+      user node[:wlp][:user]
+      group node[:wlp][:group]
+    end
+  end
+
   config = new_resource.config || node[:wlp][:config][:basic]
   wlp_config "#{servers_dir}/#{new_resource.server_name}/server.xml" do
     config config
