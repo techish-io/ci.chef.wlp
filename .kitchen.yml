@@ -8,10 +8,13 @@ platforms:
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04-i386_chef-11.4.4.box
   run_list:
   - recipe[apt]
+  - recipe[wlp_test::fix_permissions]
 - name: centos-6.4
   driver_config:
     box: opscode-centos-6.4
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-6.4_chef-11.4.4.box
+  run_list:
+  - recipe[wlp_test::fix_permissions]
 
 suites:
 - name: basic
@@ -20,8 +23,6 @@ suites:
   - recipe[wlp_test::basic]
   attributes:
     wlp:
-      user: root
-      group: root
       archive:
         accept_license: true
 
@@ -31,8 +32,6 @@ suites:
   - recipe[wlp_test::custom]
   attributes:
     wlp:
-      user: root
-      group: root
       base_dir: /opt/liberty
       user_dir: /opt/liberty/user
       archive:

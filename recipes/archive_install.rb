@@ -111,8 +111,15 @@ end
 
 # Install the WAS Liberty Profile extras
 if node[:wlp][:archive][:extras][:install]
+  directory node[:wlp][:archive][:extras][:base_dir] do
+    user node[:wlp][:user]
+    group node[:wlp][:group]
+    mode "0755"
+    recursive true
+  end
+
   execute "install #{extras_filename}" do
-    cwd node[:wlp][:base_dir]
+    cwd node[:wlp][:archive][:extras][:base_dir]
     command "java -jar #{extras_file} --acceptLicense #{node[:wlp][:archive][:extras][:base_dir]}" 
     user node[:wlp][:user]
     group node[:wlp][:group]
