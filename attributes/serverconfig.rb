@@ -14,17 +14,17 @@
 # limitations under the License.
 
 #<> Defines `defaultServer` server instance.
-default[:wlp][:servers][:defaultserver] = {
+default[:wlp][:servers][:defaultServer] = {
   "enabled" => true,
-  "servername" => "defaultServer",
+  "serverName" => "defaultServer",
   "description" => "Default Server",
-  "features" => [ "jsp-2.2" ],
-  "httpEndpoints" => [
-    {
-      "id" => "defaultHttpEndpoint",
-      "host" => "*",
-      "httpPort" => "9080",
-      "httpsPort" => "9443"
-    }
-  ]
+  "featureManager" => {
+    "feature" => [ "jsp-2.2" ]
+  },
+  "httpEndpoint" => {
+    "id" => "defaultHttpEndpoint",
+    "host" => "*",
+    "httpPort" => "9080",
+    "httpsPort" => "9443"
+  }
 }

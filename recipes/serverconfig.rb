@@ -21,17 +21,16 @@ The following definition creates a simple `airport` server instance:
 ```ruby
 node[:wlp][:servers][:airport] = {
   "enabled" => true,
-  "servername" => "airport",
   "description" => "Airport Demo App",
-  "features" => [ "jsp-2.2" ],
-  "httpEndpoints" => [
-    {
-      "id" => "defaultHttpEndpoint",
-      "host" => "*",
-      "httpPort" => "9080",
-      "httpsPort" => "9443"
-    }
-  ]
+  "featureManager" => {
+    "feature" => [ "jsp-2.2" ]
+  },
+  "httpEndpoint" => {
+    "id" => "defaultHttpEndpoint",
+    "host" => "*",
+    "httpPort" => "9080",
+    "httpsPort" => "9443"
+  }
 }
 ```
 #>
@@ -43,30 +42,21 @@ wlp_group = node[:wlp][:group]
 utils = Liberty::Utils.new(node)
 servers_dir = utils.serversDirectory
 
-node[:wlp][:servers].each_pair do |key, value|
-  if value["enabled"] == true
+node[:wlp][:servers].each_pair do |key, value| 
+  map = value.to_hash()
+  enabled = map.delete("enabled")
+  if enabled.nil? || enabled == true
+    serverName = map.delete("serverName") || key
 
-    directory "#{servers_dir}/#{value[:servername]}" do
+    directory "#{servers_dir}/#{serverName}" do
       mode   "0775"
       owner  wlp_user
       group  wlp_group
+      recursive true
     end
 
-    # First render the server.xml
-    template "#{servers_dir}/#{value[:servername]}/server.xml" do
-      source "server.xml.erb"
-      mode   "0775"
-      owner  wlp_user
-      group  wlp_group
-      variables ({
-        :servername => value["servername"],
-        :description => value["description"],
-        :features => value["features"],
-        :httpEndpoints => value["httpEndpoints"],
-        :includes => value["includes"],
-        :applications_xml => value["applicationsxml"]
-      })
+    wlp_config "#{servers_dir}/#{serverName}/server.xml" do
+      config map
     end
-    # Add more files to be rendered here
   end
 end

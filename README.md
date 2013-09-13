@@ -69,17 +69,16 @@ The following definition creates a simple `airport` server instance:
 ```ruby
 node[:wlp][:servers][:airport] = {
   "enabled" => true,
-  "servername" => "airport",
   "description" => "Airport Demo App",
-  "features" => [ "jsp-2.2" ],
-  "httpEndpoints" => [
-    {
-      "id" => "defaultHttpEndpoint",
-      "host" => "*",
-      "httpPort" => "9080",
-      "httpsPort" => "9443"
-    }
-  ]
+  "featureManager" => {
+    "feature" => [ "jsp-2.2" ]
+  },
+  "httpEndpoint" => {
+    "id" => "defaultHttpEndpoint",
+    "host" => "*",
+    "httpPort" => "9080",
+    "httpsPort" => "9443"
+  }
 }
 ```
 
@@ -93,7 +92,7 @@ This recipe is called by the `default` recipe and should not be used directly.
 * [wlp_config](#wlp_config) - Generates server.xml from a hash expression.
 * [wlp_jvm_options](#wlp_jvm_options) - Adds and removes JVM options in installation-wide or instance-specific jvm.options file.
 * [wlp_server](#wlp_server) - Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
-* [wlp_server_env](#wlp_server_env) - Sets and unsets environment properties in installation-wide or instance-specific server.env file.
+* [wlp_server_env](#wlp_server_env) - Adds and removes environment properties in installation-wide or instance-specific server.env file.
 
 ## wlp_config
 
@@ -133,13 +132,14 @@ Adds and removes JVM options in installation-wide or instance-specific jvm.optio
 
 ### Actions
 
-- add: Adds JVM options to jvm.options file. Default action.
-- remove: Removes JVM options from jvm.options file.
+- add: Adds JVM options to jvm.options file. Other existing options in the file will be preserved. Default action.
+- remove: Removes JVM options from jvm.options file. Other existing options in the file will be preserved.
+- set: Sets JVM options in jvm.options file. Other existing options will not be preserved.
 
 ### Attribute Parameters
 
 - server_name: If specified, the jvm.options file in the specified server instance is updated. Otherwise, the installation-wide jvm.options file is updated. Defaults to <code>nil</code>.
-- options: The JVM options to add or remove.
+- options: The JVM options to add or remove. Defaults to <code>nil</code>.
 
 ### Examples
 ```ruby
@@ -227,12 +227,13 @@ end
 
 ## wlp_server_env
 
-Sets and unsets environment properties in installation-wide or instance-specific server.env file.
+Adds and removes environment properties in installation-wide or instance-specific server.env file.
 
 ### Actions
 
-- set: Sets environment properties in server.env file. Default action.
-- unset: Unsets environment properties in server.env file.
+- set: Set environment properties in server.env file. Other existing properties in the file will not be preserved. Default action.
+- add: Adds environment properties in server.env file. Other existing properties in the file will be preserved.
+- remove: Removes environment properties in server.env file. Other existing properties in the file will be preserved.
 
 ### Attribute Parameters
 
@@ -244,13 +245,13 @@ Sets and unsets environment properties in installation-wide or instance-specific
 wlp_server_env "set in instance-specific server.env" do
   server_name "myInstance"
   properties "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
-  action :set
+  action :add
 end
 
 wlp_server_env "unset in instance-specific server.env" do
   server_name "myInstance"
   properties [ "JAVA_HOME" ]
-  action :unset
+  action :remove
 end
 
 wlp_server_env "set in installation-wide server.env" do
@@ -260,7 +261,7 @@ end
 
 wlp_server_env "unset in installation-wide server.env" do
   properties [ "WLP_USER_DIR" ]
-  action :unset
+  action :remove
 end
 ```
 
