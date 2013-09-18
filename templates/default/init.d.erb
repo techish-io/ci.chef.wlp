@@ -9,9 +9,9 @@
 # Short-Description: Start/Stop WebSphere Application Server Liberty Profile
 ### END INIT INFO
 
-export JAVA_HOME="<%=node['java']['java_home']%>"
+<%= "export JAVA_HOME=\"#{node['java']['java_home']}\"" if node['java'] && node['java']['java_home'] %>
 export WLP_INSTALL_DIR="<%= @installDir %>"
-<%= "export WLP_USER_DIR=#{@userDir}" if @userDir -%>
+<%= "export WLP_USER_DIR=\"#{@userDir}\"" if @userDir %>
 
 SERVER_NAME="<%= @serverName %>"
 WLP_USER="<%=node['wlp']['user']%>"

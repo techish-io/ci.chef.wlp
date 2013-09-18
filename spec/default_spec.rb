@@ -27,6 +27,10 @@ describe "wlp::default" do
       expect(chef_run).to include_recipe("wlp::archive_install")
     end
 
+    it "include java recipe" do
+      expect(chef_run).to include_recipe("java::default")
+    end
+
     it "create group" do
       expect(chef_run).to create_group(chef_run.node["wlp"]["group"])
     end
@@ -209,6 +213,10 @@ describe "wlp::default" do
       expect(chef_run).to include_recipe("wlp::zip_install")
     end
 
+    it "include java recipe" do
+      expect(chef_run).to include_recipe("java::default")
+    end
+
     it "create group" do
       expect(chef_run).to create_group(chef_run.node["wlp"]["group"])
     end
@@ -335,6 +343,45 @@ describe "wlp::default" do
       expect(chef_run).to execute_command("java -jar /root/extras.jar --acceptLicense #{chef_run.node["wlp"]["archive"]["extras"]["base_dir"]}").with(:user => chef_run.node["wlp"]["user"], :group => chef_run.node["wlp"]["group"])
     end
 
+  end
+
+  # test without using java cookbook
+  context "archive::basic no java" do
+    let (:chef_run) { 
+      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["archive"]["accept_license"] = true
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "http://example.com/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "http://example.com/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "http://example.com/extras.jar"
+      chef_run.node.set["wlp"]["install_java"] = false
+      chef_run.converge "wlp::default"
+    }
+
+    it "include archive_install" do
+      expect(chef_run).to include_recipe("wlp::archive_install")
+    end
+
+    it "include java recipe" do
+      expect(chef_run).not_to include_recipe("java::default")
+    end
+  end
+
+ context "zip::basic no java" do
+    let (:chef_run) { 
+      chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["install_method"] = "zip"
+      chef_run.node.set["wlp"]["zip"]["url"] = "http://example.com/wlp.zip"
+      chef_run.node.set["wlp"]["install_java"] = false
+      chef_run.converge "wlp::default"
+    }
+
+    it "include zip_install" do
+      expect(chef_run).to include_recipe("wlp::zip_install")
+    end
+
+    it "include java recipe" do
+      expect(chef_run).not_to include_recipe("java::default")
+    end
   end
 
 end

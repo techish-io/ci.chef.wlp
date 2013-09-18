@@ -86,9 +86,6 @@ if node[:wlp][:archive][:extras][:install]
   end
 end
 
-# Install java
-include_recipe "java"
-
 # Install the WAS Liberty Profile
 execute "install #{runtime_filename}" do
   cwd node[:wlp][:base_dir]

@@ -22,6 +22,8 @@ It provides recipes, resources, and libraries for creating, managing, and config
 
 * `node[:wlp][:user]` - User name under which the server will be installed and running. Defaults to `wlp`.
 * `node[:wlp][:group]` - Group name under which the server will be installed and running. Defaults to `wlp-admin`.
+* `node[:wlp][:install_java]` - Use the `java` cookbook to install Java. If Java is installed in a different manner 
+set it to `false`. The Java executables must be available on the __PATH__. Defaults to `true`.
 * `node[:wlp][:base_dir]` - Base installation directory. Defaults to `/opt/was/liberty`.
 * `node[:wlp][:user_dir]` - Set user configuration directory (wlp.user.dir). Set to 'nil' to use default location. Defaults to `nil`.
 * `node[:wlp][:install_method]` - Installation method. Set it to 'archive' or 'zip'. Defaults to `archive`.

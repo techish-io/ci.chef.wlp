@@ -19,6 +19,12 @@ default[:wlp][:user] = "wlp"
 #<> Group name under which the server will be installed and running.
 default[:wlp][:group] = "wlp-admin"
 
+#<
+# Use the `java` cookbook to install Java. If Java is installed in a different manner 
+# set it to `false`. The Java executables must be available on the __PATH__. 
+#>
+default[:wlp][:install_java] = true
+
 #<> Base installation directory.
 default[:wlp][:base_dir] = "/opt/was/liberty"
 
