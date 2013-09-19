@@ -9,29 +9,34 @@
 # Short-Description: Start/Stop WebSphere Application Server Liberty Profile
 ### END INIT INFO
 
+WLP_USER="<%=node['wlp']['user']%>"
+
+if [ `id -un` != "$WLP_USER" ]; then
+  exec su - $WLP_USER -- $0 "$@"
+fi 
+
 <%= "export JAVA_HOME=\"#{node['java']['java_home']}\"" if node['java'] && node['java']['java_home'] %>
 export WLP_INSTALL_DIR="<%= @installDir %>"
 <%= "export WLP_USER_DIR=\"#{@userDir}\"" if @userDir %>
 
 SERVER_NAME="<%= @serverName %>"
-WLP_USER="<%=node['wlp']['user']%>"
 
 start() {
   OPTIONS=<%= @cleanStart ? "--clean" : "" %>
   AUTH_BIND=<%= @authBind ? "authbind --deep" : "" %>
-  sudo -E -u $WLP_USER nohup $AUTH_BIND ${WLP_INSTALL_DIR}/bin/server start $SERVER_NAME $OPTIONS >/dev/null 2>&1 
+  nohup $AUTH_BIND ${WLP_INSTALL_DIR}/bin/server start $SERVER_NAME $OPTIONS >/dev/null 2>&1 
   error_code=$?
   return $error_code   
 }
 
 stop() {
-  sudo -E -u $WLP_USER ${WLP_INSTALL_DIR}/bin/server stop $SERVER_NAME
+  ${WLP_INSTALL_DIR}/bin/server stop $SERVER_NAME
   error_code=$?
   return $error_code
 }
 
 status() {
-  sudo -E -u $WLP_USER ${WLP_INSTALL_DIR}/bin/server status $SERVER_NAME
+  ${WLP_INSTALL_DIR}/bin/server status $SERVER_NAME
   error_code=$?
   return $error_code
 }
