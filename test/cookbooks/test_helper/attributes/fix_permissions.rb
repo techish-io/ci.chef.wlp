@@ -10,5 +10,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default[:wlp_test][:setup_cache][:path] = "/mnt/shared"
-default[:wlp_test][:setup_cache][:extensions] = [ "*.jar", "*.zip", "*.bin" ]
+default[:test_helper][:fix_permissions][:enabled] = true

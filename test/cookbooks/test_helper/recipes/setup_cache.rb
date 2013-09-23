@@ -1,3 +1,6 @@
+# Cookbook Name:: wlp_test
+# Attributes:: setup_cache
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,4 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default[:wlp_test][:fix_permissions][:enabled] = true
+#
+# Can be used to populate Chef file cache to speed up test-kitchen.
+#
+
+src_dir = node[:test_helper][:setup_cache][:path]
+if ::File.exist?(src_dir)
+  ruby_block "Populate Chef cache" do
+    block do
+      node[:test_helper][:setup_cache][:extensions].each do | extension |
+        ::FileUtils.cp_r(Dir.glob("#{src_dir}/#{extension}"), "#{Chef::Config[:file_cache_path]}")
+      end
+    end
+  end
+end
+
+include_recipe "test_helper::fix_permissions"

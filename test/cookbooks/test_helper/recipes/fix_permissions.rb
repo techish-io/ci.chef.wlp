@@ -13,19 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#
-# Can be used to populate Chef file cache to speed up test-kitchen.
-#
-
-src_dir = node[:wlp_test][:setup_cache][:path]
-if ::File.exist?(src_dir)
-  ruby_block "Populate Chef cache" do
+# Work-around for https://github.com/opscode/test-kitchen/issues/186
+if node[:test_helper][:fix_permissions][:enabled]
+  ruby_block "fix permissions" do
     block do
-      node[:wlp_test][:setup_cache][:extensions].each do | extension |
-        ::FileUtils.cp_r(Dir.glob("#{src_dir}/#{extension}"), "#{Chef::Config[:file_cache_path]}")
-      end
+      dir = Chef::Config[:file_cache_path]
+      begin
+        Chef::Log.info "Updated permissions for #{dir}"
+        ::FileUtils.chmod("o+rx", dir)
+        dir = ::File.dirname(dir)
+      end while dir != "/"
     end
   end
 end
-
-include_recipe "wlp_test::fix_permissions"
