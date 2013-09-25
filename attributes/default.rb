@@ -36,7 +36,7 @@ default[:wlp][:install_method] = 'archive'
 
 #<
 # Base URL location for downloading the runtime, extended, and extras Liberty profile archives. 
-# This property must be set and specify a location within the organizaion that hosts the Liberty profile archives. 
+# Must be set when `node[:wlp][:install_method]` is set to `archive`.
 #>
 default[:wlp][:archive][:base_url] = nil
 
