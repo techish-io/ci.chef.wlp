@@ -1,8 +1,7 @@
 # Support
 
-Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev][] forum.
+Use the [issue tracker][] for reporting any bugs or enhancements. For any questions please use the [WASdev forum](https://www.ibm.com/developerworks/community/forums/html/forum?id=11111111-0000-0000-0000-000000002666).
 
-[WASdev]: https://www.ibm.com/developerworks/community/forums/html/forum?id=11111111-0000-0000-0000-000000002666
 [issue tracker]: https://github.com/WASdev/ci.chef.wlp/issues
 
 The cookbook is maintained by IBM.
