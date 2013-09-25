@@ -20,8 +20,12 @@ This recipe is called by the `default` recipe and should not be used directly.
 #>
 =end
 
+unless node[:wlp][:archive][:base_url]
+  raise "You must specify the base URL location to download WebSphere Application Server Liberty Profile archives."
+end
+
 unless node[:wlp][:archive][:accept_license]
-  raise "You must accept license to install WebSphere Application Server Liberty Profile."
+  raise "You must accept the license to install WebSphere Application Server Liberty Profile."
 end
 
 runtime_dir = "#{node[:wlp][:base_dir]}/wlp"

@@ -17,7 +17,6 @@
 #<
 Installs WebSphere Application Server Liberty Profile. Liberty profile can be 
 installed using jar file archives or from a zip file based on the `node[:wlp][:install_method]` setting.
-By default, Liberty profile is installed using the jar archives downloaded from the WASdev site.
 #>
 =end
 

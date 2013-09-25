@@ -16,10 +16,11 @@ describe "wlp::default" do
   context "archive::basic" do
     let (:chef_run) { 
       chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
-      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "http://example.com/runtime.jar"
-      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "http://example.com/extended.jar"
-      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "http://example.com/extras.jar"
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.converge "wlp::default"
     }
 
@@ -78,11 +79,12 @@ describe "wlp::default" do
       chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
       chef_run.node.set["wlp"]["user"] = "liberty"
       chef_run.node.set["wlp"]["group"] = "admin"
+      chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
-      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "http://example.com/runtime.jar"
-      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "http://example.com/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
       chef_run.node.set["wlp"]["archive"]["extended"]["install"] = false
-      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "http://example.com/extras.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
       chef_run.converge "wlp::default"
     }
@@ -136,13 +138,14 @@ describe "wlp::default" do
   context "archive:all" do
     let (:chef_run) { 
       chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
       chef_run.node.set["wlp"]["base_dir"] = "/liberty"
       chef_run.node.set["wlp"]["user_dir"] = "/liberty/config"
-      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "http://example.com/runtime.jar"
-      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "http://example.com/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
       chef_run.node.set["wlp"]["archive"]["extended"]["install"] = true
-      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "http://example.com/extras.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
       chef_run.node.set["wlp"]["archive"]["extras"]["base_dir"] = "/liberty/extras"
       chef_run.converge "wlp::default"
@@ -292,9 +295,10 @@ describe "wlp::default" do
   context "archive::all file url" do
     let (:chef_run) { 
       chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["archive"]["base_url"] = "file:///mnt/shared"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
-      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "file:///mnt/shared/runtime.jar"
-      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "file:/mnt/shared/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "file:///root/extras.jar"
       chef_run.node.set["wlp"]["archive"]["extras"]["install"] = true
       chef_run.converge "wlp::default"
@@ -349,10 +353,11 @@ describe "wlp::default" do
   context "archive::basic no java" do
     let (:chef_run) { 
       chef_run = ChefSpec::ChefRunner.new(:platform => "ubuntu", :version => "12.04")
+      chef_run.node.set["wlp"]["archive"]["base_url"] = "http://example.com/"
       chef_run.node.set["wlp"]["archive"]["accept_license"] = true
-      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "http://example.com/runtime.jar"
-      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "http://example.com/extended.jar"
-      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "http://example.com/extras.jar"
+      chef_run.node.set["wlp"]["archive"]["runtime"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/runtime.jar"
+      chef_run.node.set["wlp"]["archive"]["extended"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extended.jar"
+      chef_run.node.set["wlp"]["archive"]["extras"]["url"] = "#{chef_run.node["wlp"]["archive"]["base_url"]}/extras.jar"
       chef_run.node.set["wlp"]["install_java"] = false
       chef_run.converge "wlp::default"
     }
