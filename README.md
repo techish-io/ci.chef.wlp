@@ -289,6 +289,10 @@ Use the [issue tracker][] for reporting any bugs or enhancements. For any questi
 
 The cookbook is maintained by IBM.
 
+# Notice
+
+© Copyright IBM Corporation 2013.
+
 # License
 
 ```text
