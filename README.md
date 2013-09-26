@@ -1,12 +1,11 @@
 # Description
 
-
 The __wlp__ cookbook installs and configures WebSphere Application Server Liberty Profile.
 It provides recipes, resources, and libraries for creating, managing, and configuring Liberty profile server instances.
 
 ## Basic configuration
 
-The __wlp__ cookbook can install Liberty profile from jar archives or a zip file. The installation method is configured via the `node[:wlp][:install_method` attribute. 
+The __wlp__ cookbook can install Liberty profile from jar archives or a zip file. The installation method is configured via the `node[:wlp][:install_method]` attribute. 
 
 ### jar installation
 
