@@ -6,7 +6,7 @@ CLEAN.include(sandbox_dir)
 
 task :default => :all
 
-task :all => [:knife_test, :foodcritic, :rspec, :kitchen]
+task :all => [:knife_test, :foodcritic, :rspec]
 
 task :syntax => :knife_test
 
