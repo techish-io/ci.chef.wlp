@@ -38,9 +38,9 @@ default[:wlp][:install_method] = 'archive'
 
 #<
 # Base URL location for downloading the runtime, extended, and extras Liberty profile archives. 
-# By default the archives are downloaded from WASdev repository.
+# Must be set when `node[:wlp][:install_method]` is set to `archive`. 
 #>
-default[:wlp][:archive][:base_url] = "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.0/"
+default[:wlp][:archive][:base_url] = nil
 
 #<> URL location of the runtime archive.
 default[:wlp][:archive][:runtime][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.0.jar"
