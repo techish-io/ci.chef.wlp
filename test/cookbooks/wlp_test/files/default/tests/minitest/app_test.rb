@@ -14,6 +14,7 @@
 # limitations under the License.
 
 require 'minitest/spec'
+require 'rexml/document'
 
 describe 'recipe::wlp_test::app' do
 
@@ -60,6 +61,13 @@ describe 'recipe::wlp_test::app' do
     res.wont_be_nil "Failed to access the application"
     res.code.must_equal "200"
     res.body.must_include "Basic Arithmetic"
+  end
+
+  it "contains encoded password" do
+    doc = REXML::Document.new(File.open("#{node[:wlp][:user_dir]}/servers/jsp-examples/server.xml"))
+    keystore = doc.root.elements["keyStore[@id='defaultKeyStore']"]
+    keystore.wont_be_nil
+    keystore.attributes["password"].must_equal "{xor}Lz4sLCgwLTs="
   end
 
 end

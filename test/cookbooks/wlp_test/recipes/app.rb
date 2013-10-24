@@ -37,6 +37,10 @@ wlp_server server_name do
               "name" => "jsp-examples",
               "type" => "war",
               "location" => app_file
+            },
+            "keyStore" => {
+              "id" => "defaultKeyStore",
+              "password" => lambda { Liberty::SecurityHelper.new(node).encode("password") }
             }
           })
   action :create

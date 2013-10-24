@@ -82,7 +82,7 @@ def generate_xml(indent = "", name = "server", map, output)
 
   line = "<#{name}"
   attributes.each_pair do |key, value|
-    line << " #{key}=\"#{value}\""
+    line << " #{key}=\"#{evaluate_value(value)}\""
   end
 
   if !elements.empty?
@@ -102,7 +102,7 @@ def generate_xml(indent = "", name = "server", map, output)
           end
         else 
           value.each do |item|
-            output << "#{next_indent}<#{key}>#{item}</#{key}>"
+            output << "#{next_indent}<#{key}>#{evaluate_value(item)}</#{key}>"
           end
         end
       end
@@ -114,4 +114,12 @@ def generate_xml(indent = "", name = "server", map, output)
     output << "#{indent}#{line}"
   end
 
+end
+
+def evaluate_value(value) 
+  if value.is_a?(Proc)
+    return value.call
+  else
+    return value
+  end
 end
