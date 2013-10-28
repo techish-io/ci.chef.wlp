@@ -52,7 +52,7 @@ $ rake kitchen
 In order to run the [test-kitchen][] tests you must first configure them. Please see [How to run 'test kitchen' tests](https://github.com/WASdev/ci.chef.wlp/wiki/How-to-run-%27test-kitchen%27-tests) for more information. The tests and cookbooks used by [test-kitchen][] are located in the **test/** directory. 
 
 [Foodcritic]: http://acrmp.github.io/foodcritic/
-[ChefSpec]: http://acrmp.github.io/chefspec/
+[ChefSpec]: http://sethvargo.github.io/chefspec/
 [test-kitchen]: https://github.com/opscode/test-kitchen
 
 # Documentation
