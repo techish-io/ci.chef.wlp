@@ -1,4 +1,4 @@
-# Cookbook Name:: wlp_test
+# Cookbook Name:: wlp
 # Attributes:: default
 #
 # (C) Copyright IBM Corporation 2013.
@@ -15,25 +15,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "wlp::default"
+=begin
+#<
+Installs a feature from an enterprise subsystem archive (ESA) file.
 
+@action install Installs a feature using .esa file.
+
+@section Examples
+```ruby
 wlp_install_feature "mongodb" do
   location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.0/com.ibm.websphere.appserver.mongodb-2.0.esa"
   accept_license true
 end
+```
+#>
+=end
+actions :install
 
-wlp_server "testServer" do
-  config ({
-            "featureManager" => {
-              "onError" => "FAIL", 
-              "feature" => [ "jsp-2.2", "mongodb-2.0" ]
-            },
-            "httpEndpoint" => {
-              "id" => "defaultHttpEndpoint",
-              "host" => "*",
-              "httpPort" => "9080",
-              "httpsPort" => "9443"
-            }
-          })
-  action [:create, :start]
-end
+#<> @attribute location Specifies the location of the subsystem archive (ESA file) to install. Can be a file name or a URL.
+attribute :location, :kind_of => String, :default => nil
+
+#<> @attribute to Specifies where to install the feature. The feature can be installed to any configured product extension location, or as a user feature. 
+attribute :to, :kind_of => String, :default => "usr"
+
+#<> @attribute accept_license Specifies whether to accept the license terms and conditions of the feature.
+attribute :accept_license, :kind_of => [TrueClass, FalseClass], :default => false
+
+default_action :install
+

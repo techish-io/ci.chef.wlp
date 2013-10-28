@@ -107,6 +107,7 @@ This recipe is called by the `default` recipe and should not be used directly.
 # Resources
 
 * [wlp_config](#wlp_config) - Generates server.xml from a hash expression.
+* [wlp_install_feature](#wlp_install_feature) - Installs a feature from an enterprise subsystem archive (ESA) file.
 * [wlp_jvm_options](#wlp_jvm_options) - Adds and removes JVM options in installation-wide or instance-specific jvm.options file.
 * [wlp_server](#wlp_server) - Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
 * [wlp_server_env](#wlp_server_env) - Adds and removes environment properties in installation-wide or instance-specific server.env file.
@@ -140,6 +141,28 @@ wlp_config "/var/servers/airport/server.xml" do
               "httpsPort" => "9443"
             }
   })
+end
+```
+
+## wlp_install_feature
+
+Installs a feature from an enterprise subsystem archive (ESA) file.
+
+### Actions
+
+- install: Installs a feature using .esa file. Default action.
+
+### Attribute Parameters
+
+- location: Specifies the location of the subsystem archive (ESA file) to install. Can be a file name or a URL. Defaults to <code>nil</code>.
+- to: Specifies where to install the feature. The feature can be installed to any configured product extension location, or as a user feature. Defaults to <code>"usr"</code>.
+- accept_license: Specifies whether to accept the license terms and conditions of the feature. Defaults to <code>false</code>.
+
+### Examples
+```ruby
+wlp_install_feature "mongodb" do
+  location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.0/com.ibm.websphere.appserver.mongodb-2.0.esa"
+  accept_license true
 end
 ```
 
