@@ -50,8 +50,5 @@ action :set do
 end
 
 def load_current_resource
-  if new_resource.server_name.nil?
-    raise "Server name must be specified"
-  end
   @bootstrapProps = Liberty::BootstrapProperties.new(node, new_resource.server_name)
 end
