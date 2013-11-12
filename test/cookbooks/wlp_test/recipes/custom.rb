@@ -18,7 +18,7 @@
 include_recipe "wlp::default"
 
 wlp_install_feature "mongodb" do
-  location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.0/com.ibm.websphere.appserver.mongodb-2.0.esa"
+  location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.1/com.ibm.websphere.appserver.mongodb-2.0.esa"
   accept_license true
 end
 

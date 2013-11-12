@@ -43,25 +43,25 @@ default[:wlp][:install_method] = 'archive'
 default[:wlp][:archive][:base_url] = nil
 
 #<> URL location of the runtime archive.
-default[:wlp][:archive][:runtime][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.0.jar"
+default[:wlp][:archive][:runtime][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.1.jar"
 
 #<> Checksum value for the runtime archive.
-default[:wlp][:archive][:runtime][:checksum] = '4032747299111a580a9ef476d539fb0f67bf6c98894e01db4555d94d35bb5175'
-
+default[:wlp][:archive][:runtime][:checksum] = 'df6e4cf78f91745a11372f1b4a8467fea8e7c53ddec48471cf92729deb88d306'
+                                                
 #<> URL location of the extended archive.
-default[:wlp][:archive][:extended][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.0.jar"
+default[:wlp][:archive][:extended][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.1.jar"
 
 #<> Checksum value for the extended archive.
-default[:wlp][:archive][:extended][:checksum] = 'b3df906bd7ddeafa58121c96577ac08054208f16cb874a8684b6b132267e23a0'
+default[:wlp][:archive][:extended][:checksum] = 'd511fc4068f4e9c345b8fbfa2423fa00e476c2d771dde884a4b962fc3094149c'
 
 #<> Controls whether the extended archive should be downloaded and installed.
 default[:wlp][:archive][:extended][:install] = true
 
 #<> URL location of the extras archive.
-default[:wlp][:archive][:extras][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.0.jar"
+default[:wlp][:archive][:extras][:url] = "#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.1.jar"
 
 #<> Checksum value for the extras archive.
-default[:wlp][:archive][:extras][:checksum] = '7ff244a92260f032ad67733070df7f581a1a97628e01aebde808148b981396d3'
+default[:wlp][:archive][:extras][:checksum] = 'c468247e18ffb85b1d691f67839471ccd4390b299eb997151f7b56efc6332f4d'
 
 #<> Controls whether the extras archive should be downloaded and installed.
 default[:wlp][:archive][:extras][:install] = false
