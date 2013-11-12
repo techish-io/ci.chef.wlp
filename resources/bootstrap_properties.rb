@@ -17,41 +17,36 @@
 
 =begin
 #<
-Adds, sets and removes environment properties in installation-wide or instance-specific server.env file.
+Adds, sets and removes bootstrap properties for a particular server instance.
 
-@action add    Adds environment properties in server.env file. Other existing properties in the file will be preserved.
-@action remove Removes environment properties in server.env file. Other existing properties in the file will be preserved.
-@action set    Set environment properties in server.env file. Other existing properties in the file will not be preserved.
+@action add    Adds properties to bootstrap.properties file. Other existing properties in the file will be preserved.
+@action remove Removes properties from bootstrap.properties file. Other existing properties in the file will be preserved.
+@action set    Set properties in bootstrap.properties file. Other existing properties in the file will not be preserved.
 
 @section Examples
 ```ruby
-wlp_server_env "add to instance-specific server.env" do
+wlp_bootstrap_properties "add to bootstrap.properties" do
   server_name "myInstance"
-  properties "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
+  properties "com.ibm.ws.logging.trace.file.name" => "trace.log"
   action :add
 end
 
-wlp_server_env "remove from instance-specific server.env" do
+wlp_bootstrap_properties "remove from bootstrap.properties" do
   server_name "myInstance"
-  properties [ "JAVA_HOME" ]
+  properties [ "com.ibm.ws.logging.trace.file.name" ]
   action :remove
 end
 
-wlp_server_env "set installation-wide server.env" do
-  properties "WLP_USER_DIR" => "/var/wlp"
+wlp_bootstrap_properties "set bootstrap.properties" do
+  properties "default.http.port" => "9081", "default.https.port" => "9444"
   action :set
-end
-
-wlp_server_env "remove from installation-wide server.env" do
-  properties [ "WLP_USER_DIR" ]
-  action :remove
 end
 ```
 #>
 =end
 actions :add, :remove, :set
 
-#<> @attribute server_name If specified, the server.env file in the specified server instance is updated. Otherwise, the installation-wide server.env file is updated.
+#<> @attribute server_name Name of the server instance.
 attribute :server_name, :kind_of => String, :default => nil
 
 #<> @attribute properties The properties to add, set or remove. Must be specified as a hash when adding or setting and as an array when removing.

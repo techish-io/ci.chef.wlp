@@ -62,6 +62,12 @@ def update(new_resource)
     action :set
   end
 
+  wlp_bootstrap_properties "bootstrap.properties for #{new_resource.server_name}" do
+    server_name new_resource.server_name
+    properties new_resource.bootstrapProperties
+    action :set
+  end
+
   new_resource.updated_by_last_action(true)
 end
 

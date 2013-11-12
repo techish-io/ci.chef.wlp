@@ -94,11 +94,47 @@ node[:wlp][:servers][:airport] = {
 
 # Resources
 
+* [wlp_bootstrap_properties](#wlp_bootstrap_properties) - Adds, sets and removes bootstrap properties for a particular server instance.
 * [wlp_config](#wlp_config) - Generates server.xml from a hash expression.
 * [wlp_install_feature](#wlp_install_feature) - Installs a feature from an enterprise subsystem archive (ESA) file.
-* [wlp_jvm_options](#wlp_jvm_options) - Adds and removes JVM options in installation-wide or instance-specific jvm.options file.
+* [wlp_jvm_options](#wlp_jvm_options) - Adds, sets and removes JVM options in installation-wide or instance-specific jvm.options file.
 * [wlp_server](#wlp_server) - Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
-* [wlp_server_env](#wlp_server_env) - Adds and removes environment properties in installation-wide or instance-specific server.env file.
+* [wlp_server_env](#wlp_server_env) - Adds, sets and removes environment properties in installation-wide or instance-specific server.env file.
+
+## wlp_bootstrap_properties
+
+Adds, sets and removes bootstrap properties for a particular server instance.
+
+### Actions
+
+- set: Set properties in bootstrap.properties file. Other existing properties in the file will not be preserved. Default action.
+- add: Adds properties to bootstrap.properties file. Other existing properties in the file will be preserved.
+- remove: Removes properties from bootstrap.properties file. Other existing properties in the file will be preserved.
+
+### Attribute Parameters
+
+- server_name: Name of the server instance. Defaults to <code>nil</code>.
+- properties: The properties to add, set or remove. Must be specified as a hash when adding or setting and as an array when removing. Defaults to <code>nil</code>.
+
+### Examples
+```ruby
+wlp_bootstrap_properties "add to bootstrap.properties" do
+  server_name "myInstance"
+  properties "com.ibm.ws.logging.trace.file.name" => "trace.log"
+  action :add
+end
+
+wlp_bootstrap_properties "remove from bootstrap.properties" do
+  server_name "myInstance"
+  properties [ "com.ibm.ws.logging.trace.file.name" ]
+  action :remove
+end
+
+wlp_bootstrap_properties "set bootstrap.properties" do
+  properties "default.http.port" => "9081", "default.https.port" => "9444"
+  action :set
+end
+```
 
 ## wlp_config
 
@@ -149,14 +185,14 @@ Installs a feature from an enterprise subsystem archive (ESA) file.
 ### Examples
 ```ruby
 wlp_install_feature "mongodb" do
-  location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.0/com.ibm.websphere.appserver.mongodb-2.0.esa"
+  location "http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/8.5.5.1/com.ibm.websphere.appserver.mongodb-2.0.esa"
   accept_license true
 end
 ```
 
 ## wlp_jvm_options
 
-Adds and removes JVM options in installation-wide or instance-specific jvm.options file.
+Adds, sets and removes JVM options in installation-wide or instance-specific jvm.options file.
 
 ### Actions
 
@@ -167,7 +203,7 @@ Adds and removes JVM options in installation-wide or instance-specific jvm.optio
 ### Attribute Parameters
 
 - server_name: If specified, the jvm.options file in the specified server instance is updated. Otherwise, the installation-wide jvm.options file is updated. Defaults to <code>nil</code>.
-- options: The JVM options to add or remove. Defaults to <code>nil</code>.
+- options: The JVM options to add, set or remove. Defaults to <code>nil</code>.
 
 ### Examples
 ```ruby
@@ -212,6 +248,7 @@ Provides operations for creating, starting, stopping, and destroying Liberty pro
 - config: Configuration for the server instance. If not specified, `node[:wlp][:config][:basic]` is used as the initial configuration. Defaults to <code>nil</code>.
 - jvmOptions: Instance-specific JVM options. Defaults to <code>[]</code>.
 - serverEnv: Instance-specific server environment properties. Defaults to <code>{}</code>.
+- bootstrapProperties: Instance-specific bootstrap properties. Defaults to <code>{}</code>.
 - clean: Clean all cached information when starting the server instance. Defaults to <code>false</code>.
 
 ### Examples
@@ -236,6 +273,7 @@ wlp_server "myInstance" do
           })
   jvmOptions [ "-Djava.net.ipv4=true" ]
   serverEnv "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
+  bootstrapProperties "default.http.port" => "9080", "default.https.port" => "9443"
   action :create
 end
 
@@ -255,7 +293,7 @@ end
 
 ## wlp_server_env
 
-Adds and removes environment properties in installation-wide or instance-specific server.env file.
+Adds, sets and removes environment properties in installation-wide or instance-specific server.env file.
 
 ### Actions
 
@@ -266,28 +304,28 @@ Adds and removes environment properties in installation-wide or instance-specifi
 ### Attribute Parameters
 
 - server_name: If specified, the server.env file in the specified server instance is updated. Otherwise, the installation-wide server.env file is updated. Defaults to <code>nil</code>.
-- properties: The properties to set or unset. Must be specified as a hash when setting and as an array when unsetting. Defaults to <code>nil</code>.
+- properties: The properties to add, set or remove. Must be specified as a hash when adding or setting and as an array when removing. Defaults to <code>nil</code>.
 
 ### Examples
 ```ruby
-wlp_server_env "set in instance-specific server.env" do
+wlp_server_env "add to instance-specific server.env" do
   server_name "myInstance"
   properties "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
   action :add
 end
 
-wlp_server_env "unset in instance-specific server.env" do
+wlp_server_env "remove from instance-specific server.env" do
   server_name "myInstance"
   properties [ "JAVA_HOME" ]
   action :remove
 end
 
-wlp_server_env "set in installation-wide server.env" do
+wlp_server_env "set installation-wide server.env" do
   properties "WLP_USER_DIR" => "/var/wlp"
   action :set
 end
 
-wlp_server_env "unset in installation-wide server.env" do
+wlp_server_env "remove from installation-wide server.env" do
   properties [ "WLP_USER_DIR" ]
   action :remove
 end

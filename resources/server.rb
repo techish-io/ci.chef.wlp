@@ -47,6 +47,7 @@ wlp_server "myInstance" do
           })
   jvmOptions [ "-Djava.net.ipv4=true" ]
   serverEnv "JAVA_HOME" => "/usr/lib/j2sdk1.7-ibm/"
+  bootstrapProperties "default.http.port" => "9080", "default.https.port" => "9443"
   action :create
 end
 
@@ -78,6 +79,9 @@ attribute :jvmOptions, :kind_of => Array, :default => []
 
 #<> @attribute serverEnv Instance-specific server environment properties. 
 attribute :serverEnv, :kind_of => Hash, :default => {}
+
+#<> @attribute bootstrapProperties Instance-specific bootstrap properties. 
+attribute :bootstrapProperties, :kind_of => Hash, :default => {}
 
 #<> @attribute clean Clean all cached information when starting the server instance.
 attribute :clean, :kind_of => [TrueClass, FalseClass], :default => false

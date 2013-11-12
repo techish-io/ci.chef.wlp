@@ -29,8 +29,8 @@ wlp_server server_name do
             "httpEndpoint" => {
               "id" => "defaultHttpEndpoint",
               "host" => "*",
-              "httpPort" => "9080",
-              "httpsPort" => "9443"
+              "httpPort" => "${default.http.port}",
+              "httpsPort" => "${default.https.port}"
             },
             "application" => {
               "id" => "jsp-examples",
@@ -43,6 +43,7 @@ wlp_server server_name do
               "password" => lambda { Liberty::SecurityHelper.new(node).encode("password") }
             }
           })
+  bootstrapProperties "default.http.port" => "9080", "default.https.port" => "9443"
   action :create
 end
 
