@@ -53,7 +53,7 @@ end
 # Install java if requested
 include_recipe "java" if node[:wlp][:install_java]
 
-include_recipe "wlp::#{node[:wlp][:install_method]}_install"
+include_recipe "wlp::_#{node[:wlp][:install_method]}_install"
 
 wlp_user_dir = node[:wlp][:user_dir]
 if wlp_user_dir

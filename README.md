@@ -46,13 +46,13 @@ set it to `false`. The Java executables must be available on the __PATH__. Defau
 * `node[:wlp][:install_method]` - Installation method. Set it to 'archive' or 'zip'. Defaults to `archive`.
 * `node[:wlp][:archive][:base_url]` - Base URL location for downloading the runtime, extended, and extras Liberty profile archives. 
 Must be set when `node[:wlp][:install_method]` is set to `archive`. Defaults to `nil`.
-* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.0.jar`.
-* `node[:wlp][:archive][:runtime][:checksum]` - Checksum value for the runtime archive. Defaults to `4032747299111a580a9ef476d539fb0f67bf6c98894e01db4555d94d35bb5175`.
-* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.0.jar`.
-* `node[:wlp][:archive][:extended][:checksum]` - Checksum value for the extended archive. Defaults to `b3df906bd7ddeafa58121c96577ac08054208f16cb874a8684b6b132267e23a0`.
+* `node[:wlp][:archive][:runtime][:url]` - URL location of the runtime archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-runtime-8.5.5.1.jar`.
+* `node[:wlp][:archive][:runtime][:checksum]` - Checksum value for the runtime archive. Defaults to `df6e4cf78f91745a11372f1b4a8467fea8e7c53ddec48471cf92729deb88d306`.
+* `node[:wlp][:archive][:extended][:url]` - URL location of the extended archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extended-8.5.5.1.jar`.
+* `node[:wlp][:archive][:extended][:checksum]` - Checksum value for the extended archive. Defaults to `d511fc4068f4e9c345b8fbfa2423fa00e476c2d771dde884a4b962fc3094149c`.
 * `node[:wlp][:archive][:extended][:install]` - Controls whether the extended archive should be downloaded and installed. Defaults to `true`.
-* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.0.jar`.
-* `node[:wlp][:archive][:extras][:checksum]` - Checksum value for the extras archive. Defaults to `7ff244a92260f032ad67733070df7f581a1a97628e01aebde808148b981396d3`.
+* `node[:wlp][:archive][:extras][:url]` - URL location of the extras archive. Defaults to `#{node[:wlp][:archive][:base_url]}/wlp-developers-extras-8.5.5.1.jar`.
+* `node[:wlp][:archive][:extras][:checksum]` - Checksum value for the extras archive. Defaults to `c468247e18ffb85b1d691f67839471ccd4390b299eb997151f7b56efc6332f4d`.
 * `node[:wlp][:archive][:extras][:install]` - Controls whether the extras archive should be downloaded and installed. Defaults to `false`.
 * `node[:wlp][:archive][:extras][:base_dir]` - Base installation directory of the extras archive. Defaults to `#{node[:wlp][:base_dir]}/extras`.
 * `node[:wlp][:archive][:accept_license]` - Accept license terms when doing archive-based installation. 
@@ -64,15 +64,8 @@ only when `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
 
 # Recipes
 
-* [wlp::archive_install](#wlparchive_install) - Installs WebSphere Application Server Liberty Profile from jar archive files.
 * [wlp::default](#wlpdefault) - Installs WebSphere Application Server Liberty Profile.
 * [wlp::serverconfig](#wlpserverconfig) - Creates Liberty profile server instance for each `node[:wlp][:servers][<server_name>]` definition.
-* [wlp::zip_install](#wlpzip_install) - Installs WebSphere Application Server Liberty Profile from a zip file.
-
-## wlp::archive_install
-
-Installs WebSphere Application Server Liberty Profile from jar archive files. 
-This recipe is called by the `default` recipe and should not be used directly.
 
 ## wlp::default
 
@@ -98,11 +91,6 @@ node[:wlp][:servers][:airport] = {
   }
 }
 ```
-
-## wlp::zip_install
-
-Installs WebSphere Application Server Liberty Profile from a zip file. 
-This recipe is called by the `default` recipe and should not be used directly.
 
 # Resources
 

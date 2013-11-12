@@ -28,7 +28,7 @@ describe "wlp::default" do
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::archive_install")
+      expect(chef_run).to include_recipe("wlp::_archive_install")
     end
 
     it "include java recipe" do
@@ -93,7 +93,7 @@ describe "wlp::default" do
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::archive_install")
+      expect(chef_run).to include_recipe("wlp::_archive_install")
     end
 
     it "create group" do
@@ -155,7 +155,7 @@ describe "wlp::default" do
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::archive_install")
+      expect(chef_run).to include_recipe("wlp::_archive_install")
     end
 
     it "create group" do
@@ -216,7 +216,7 @@ describe "wlp::default" do
     }
 
     it "include zip_install" do
-      expect(chef_run).to include_recipe("wlp::zip_install")
+      expect(chef_run).to include_recipe("wlp::_zip_install")
     end
 
     it "include java recipe" do
@@ -262,7 +262,7 @@ describe "wlp::default" do
     }
 
     it "include zip_install" do
-      expect(chef_run).to include_recipe("wlp::zip_install")
+      expect(chef_run).to include_recipe("wlp::_zip_install")
     end
 
     it "create group" do
@@ -308,7 +308,7 @@ describe "wlp::default" do
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::archive_install")
+      expect(chef_run).to include_recipe("wlp::_archive_install")
     end
 
     it "create group" do
@@ -366,7 +366,7 @@ describe "wlp::default" do
     }
 
     it "include archive_install" do
-      expect(chef_run).to include_recipe("wlp::archive_install")
+      expect(chef_run).to include_recipe("wlp::_archive_install")
     end
 
     it "include java recipe" do
@@ -384,7 +384,7 @@ describe "wlp::default" do
     }
 
     it "include zip_install" do
-      expect(chef_run).to include_recipe("wlp::zip_install")
+      expect(chef_run).to include_recipe("wlp::_zip_install")
     end
 
     it "include java recipe" do
