@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the __wlp__ cookbook.
 
+## 0.3.0:
+
+### Improvements
+
+- **[Issue #16](https://github.com/WASdev/ci.chef.wlp/issues/16)** - IBM Java & Java cookbook
+
 ## 0.2.0:
 
 ### Improvements
