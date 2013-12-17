@@ -51,7 +51,7 @@ directory wlp_base_dir do
 end
 
 # Install java if requested
-include_recipe "wlp::_java" if node[:wlp][:install_java]
+include_recipe "java" if node[:wlp][:install_java]
 
 include_recipe "wlp::_#{node[:wlp][:install_method]}_install"
 

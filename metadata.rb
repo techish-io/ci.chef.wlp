@@ -11,4 +11,4 @@ supports "ubuntu"
 supports "centos"
 supports "redhat"
 
-depends "java"
+depends "java", ">= 1.16.4"
