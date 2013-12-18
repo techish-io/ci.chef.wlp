@@ -2,7 +2,7 @@
 
 This file is used to list changes made in each version of the __wlp__ cookbook.
 
-## 0.3.0:
+## 0.2.1:
 
 ### Improvements
 
