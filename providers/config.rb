@@ -35,7 +35,7 @@ end
 
 def update(new_resource) 
   new_contents = []
-  generate_xml(new_resource.config, new_contents)
+  generate_xml("", "server", new_resource.config, new_contents)
 
   # write tmp file
   tmp_file = "#{new_resource.file}.tmp"
@@ -65,7 +65,7 @@ def compare(old_file, new_file)
   end
 end
 
-def generate_xml(indent = "", name = "server", map, output)
+def generate_xml(indent, name, map, output)
   
   attributes = {}
   elements = {}
