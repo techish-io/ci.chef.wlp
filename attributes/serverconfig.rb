@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#<> Defines `defaultServer` server instance. Used by the `serverconfig` recipe.
+#<> Defines a `defaultServer` server instance. Used by the `serverconfig` recipe.
 default[:wlp][:servers][:defaultServer] = {
   "enabled" => true,
   "serverName" => "defaultServer",
