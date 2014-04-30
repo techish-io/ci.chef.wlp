@@ -18,7 +18,7 @@
 
 =begin
 #<
-Creates Liberty profile server instance for each `node[:wlp][:servers][<server_name>]` definition.
+Creates a Liberty profile server instance for each `node[:wlp][:servers][<server_name>]` definition.
 The following definition creates a simple `airport` server instance:
 ```ruby
 node[:wlp][:servers][:airport] = {
