@@ -19,9 +19,9 @@
 #<
 Provides operations for creating, starting, stopping, and destroying Liberty profile server instances.
 
-@action create  Creates/updates server instance.
-@action create_if_missing  Creates server instance only if the instance does not already exist.
-@action destroy Destroys server instance.
+@action create  Creates or updates the server instance.
+@action create_if_missing  Creates a server instance only if the instance does not already exist.
+@action destroy Destroys the server instance.
 @action start   Creates and starts the server instance (as an OS service). 
 @action stop    Stops the server instance (via an OS service).
 
