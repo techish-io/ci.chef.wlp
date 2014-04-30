@@ -18,7 +18,7 @@
 =begin
 #<
 Installs WebSphere Application Server Liberty Profile. Liberty profile can be 
-installed using jar file archives or from a zip file based on the `node[:wlp][:install_method]` setting.
+installed using jar archive files, or from a zip file based on the `node[:wlp][:install_method]` setting.
 #>
 =end
 
