@@ -12,7 +12,7 @@ When the jar archive files installation method (jar installation) is used, the `
 
 By default the cookbook is configured to use the jar installation method. The archive options are already configured with values based on developer licensed Liberty profile. 
 
-The no-fee developer licensed Liberty profile jar archive files can be downloaded from [Liberty download page](https://www.ibmdw.net/wasdev/downloads/websphere-application-server-liberty-profile/) on [WASdev](https://www.ibmdw.net/wasdev) site. The production licensed Liberty profile jar archives can be obtained from [IBM Passport Advantage](http://www-01.ibm.com/software/lotus/passportadvantage/).
+The no-fee developer licensed Liberty profile jar archive files can be downloaded from [Liberty download page](https://www.ibmdw.net/wasdev/downloads/websphere-application-server-liberty-profile/) on [WASdev](https://www.ibmdw.net/wasdev) site. The production licensed Liberty profile jar archive files can be obtained from [IBM Passport Advantage](http://www-01.ibm.com/software/lotus/passportadvantage/).
 
 ### zip installation
 
