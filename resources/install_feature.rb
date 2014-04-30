@@ -19,7 +19,7 @@
 #<
 Installs a feature from an enterprise subsystem archive (ESA) file.
 
-@action install Installs a feature using .esa file.
+@action install Installs a feature using a .esa file.
 
 @section Examples
 ```ruby
@@ -32,7 +32,7 @@ end
 =end
 actions :install
 
-#<> @attribute location Specifies the location of the subsystem archive (ESA file) to install. Can be a file name or a URL.
+#<> @attribute location Specifies the location of the subsystem archive (ESA file) to be installed. Can be a file name or a URL.
 attribute :location, :kind_of => String, :default => nil
 
 #<> @attribute to Specifies where to install the feature. The feature can be installed to any configured product extension location, or as a user feature. 
