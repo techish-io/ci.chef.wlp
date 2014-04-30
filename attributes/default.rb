@@ -81,7 +81,7 @@ default[:wlp][:archive][:accept_license] = false
 #>
 default[:wlp][:zip][:url] = nil
 
-#<> Defines basic server configuration when creating server instances using the `wlp_server` resource.
+#<> Defines a basic server configuration when creating server instances using the `wlp_server` resource.
 default[:wlp][:config][:basic] = {
   "featureManager" => {
     "feature" => [ "jsp-2.2" ]
