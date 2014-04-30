@@ -17,11 +17,11 @@
 
 =begin
 #<
-Adds, sets and removes JVM options in installation-wide or instance-specific jvm.options file.
+Adds, sets, and removes JVM options in an installation-wide or instance-specific jvm.options file.
 
-@action add    Adds JVM options to jvm.options file. Other existing options in the file will be preserved. 
-@action remove Removes JVM options from jvm.options file. Other existing options in the file will be preserved. 
-@action set    Sets JVM options in jvm.options file. Other existing options will not be preserved. 
+@action add    Adds JVM options to a jvm.options file. Other existing options in the file are preserved. 
+@action remove Removes JVM options from a jvm.options file. Other existing options in the file are preserved. 
+@action set    Sets JVM options in a jvm.options file. Other existing options are not preserved. 
 
 @section Examples
 ```ruby
@@ -54,7 +54,7 @@ actions :add, :remove, :set
 #<> @attribute server_name If specified, the jvm.options file in the specified server instance is updated. Otherwise, the installation-wide jvm.options file is updated.
 attribute :server_name, :kind_of => String, :default => nil
 
-#<> @attribute options The JVM options to add, set or remove.
+#<> @attribute options The JVM options to add, set, or remove.
 attribute :options, :kind_of => Array, :default => nil
 
 default_action :add
