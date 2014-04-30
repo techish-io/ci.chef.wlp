@@ -17,11 +17,11 @@
 
 =begin
 #<
-Adds, sets and removes bootstrap properties for a particular server instance.
+Adds, sets, and removes bootstrap properties for a particular server instance.
 
-@action add    Adds properties to bootstrap.properties file. Other existing properties in the file will be preserved.
-@action remove Removes properties from bootstrap.properties file. Other existing properties in the file will be preserved.
-@action set    Set properties in bootstrap.properties file. Other existing properties in the file will not be preserved.
+@action add    Adds properties to the bootstrap.properties file. Other existing properties in the file are preserved.
+@action remove Removes properties from the bootstrap.properties file. Other existing properties in the file are preserved.
+@action set    Set properties in the bootstrap.properties file. Other existing properties in the file are not preserved.
 
 @section Examples
 ```ruby
@@ -49,7 +49,7 @@ actions :add, :remove, :set
 #<> @attribute server_name Name of the server instance.
 attribute :server_name, :kind_of => String, :default => nil
 
-#<> @attribute properties The properties to add, set or remove. Must be specified as a hash when adding or setting and as an array when removing.
+#<> @attribute properties The properties to add, set, or remove. Must be specified as a hash when adding or setting and as an array when removing.
 attribute :properties, :kind_of => [Hash, Array], :default => nil
 
 default_action :set
