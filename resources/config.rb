@@ -17,10 +17,10 @@
 
 =begin
 #<
-Generates server.xml from a hash expression.
+Generates a server.xml file from a hash expression.
 
-@action create Creates/updates server.xml.
-@action create_if_missing Creates server.xml only if the file does not already exist.
+@action create Creates or updates the server.xml file.
+@action create_if_missing Creates a server.xml file only if the file does not already exist.
 
 @section Examples
 ```ruby
@@ -46,7 +46,7 @@ actions :create, :create_if_missing
 #<> @attribute file The server.xml file to create or update.
 attribute :file, :kind_of => String, :default => nil, :name_attribute => true
 
-#<> @attribute config The contents of the server.xml expressed as a hash.
+#<> @attribute config The contents of the server.xml file expressed as a hash.
 attribute :config, :kind_of => [Hash], :default => nil
 
 default_action :create
