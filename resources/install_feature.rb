@@ -32,7 +32,7 @@ end
 =end
 actions :install
 
-#<> @attribute location Specifies the location of the subsystem archive (ESA file) to be installed. Can be a file name or a URL.
+#<> @attribute location Specifies the location of the ESA file to be installed. Can be a file name or a URL.
 attribute :location, :kind_of => String, :default => nil
 
 #<> @attribute to Specifies where to install the feature. The feature can be installed to any configured product extension location, or as a user feature. 
