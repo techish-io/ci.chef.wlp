@@ -14,7 +14,7 @@ When the jar archive files installation method (jar installation) is used, the `
 
 By default the cookbook is configured to use the jar installation method. The archive options are already configured with values based on developer licensed Liberty profile.
 
-The no-fee developer licensed Liberty profile jar archive files can be downloaded from [Liberty download page](https://www.ibmdw.net/wasdev/downloads/websphere-application-server-liberty-profile/) on [WASdev](https://www.ibmdw.net/wasdev) site. The production licensed Liberty profile jar archives can be obtained from [IBM Passport Advantage](http://www-01.ibm.com/software/lotus/passportadvantage/).
+The no-fee developer licensed Liberty profile jar archive files can be downloaded from [Liberty download page](https://www.ibmdw.net/wasdev/downloads/websphere-application-server-liberty-profile/) on [WASdev](https://www.ibmdw.net/wasdev) site. The production licensed Liberty profile jar archive files can be obtained from [IBM Passport Advantage](http://www-01.ibm.com/software/lotus/passportadvantage/).
 
 ### zip installation
 
@@ -59,8 +59,8 @@ Must be set when `node[:wlp][:install_method]` is set to `archive`. Defaults to 
 Must be set to `true` or the installation fails. Defaults to `false`.
 * `node[:wlp][:zip][:url]` - URL location for a zip file containing Liberty profile installation files. Must be set
 if `node[:wlp][:install_method]` is set to `zip`. Defaults to `nil`.
-* `node[:wlp][:config][:basic]` - Defines basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `{ ... }`.
-* `node[:wlp][:servers][:defaultServer]` - Defines `defaultServer` server instance. Used by the `serverconfig` recipe. Defaults to `{ ... }`.
+* `node[:wlp][:config][:basic]` - Defines a basic server configuration when creating server instances using the `wlp_server` resource. Defaults to `{ ... }`.
+* `node[:wlp][:servers][:defaultServer]` - Defines a `defaultServer` server instance. Used by the `serverconfig` recipe. Defaults to `{ ... }`.
 
 # Recipes
 
@@ -178,7 +178,7 @@ Installs a feature from an enterprise subsystem archive (ESA) file.
 
 ### Attribute Parameters
 
-- location: Specifies the location of the subsystem archive (ESA file) to be installed. Can be a file name or a URL. Defaults to <code>nil</code>.
+- location: Specifies the location of the ESA file to be installed. Can be a file name or a URL. Defaults to <code>nil</code>.
 - to: Specifies where to install the feature. The feature can be installed to any configured product extension location, or as a user feature. Defaults to <code>"usr"</code>.
 - accept_license: Specifies whether to accept the license terms and conditions of the feature. Defaults to <code>false</code>.
 
