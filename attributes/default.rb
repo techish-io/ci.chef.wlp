@@ -15,14 +15,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#<> User name under which the server will be installed and running.
+#<> User name under which the server is installed and runs.
 default[:wlp][:user] = "wlp"
 
-#<> Group name under which the server will be installed and running.
+#<> Group name under which the server is installed and runs.
 default[:wlp][:group] = "wlp-admin"
 
 #<
-# Use the `java` cookbook to install Java. If Java is installed in a different manner 
+# Use the `java` cookbook to install Java. If Java is installed using a different method  
 # set it to `false`. The Java executables must be available on the __PATH__. 
 #>
 default[:wlp][:install_java] = true
@@ -54,7 +54,7 @@ default[:wlp][:archive][:extended][:url] = "#{node[:wlp][:archive][:base_url]}/w
 #<> Checksum value for the extended archive.
 default[:wlp][:archive][:extended][:checksum] = 'd511fc4068f4e9c345b8fbfa2423fa00e476c2d771dde884a4b962fc3094149c'
 
-#<> Controls whether the extended archive should be downloaded and installed.
+#<> Controls whether the extended archive is downloaded and installed.
 default[:wlp][:archive][:extended][:install] = true
 
 #<> URL location of the extras archive.
@@ -63,7 +63,7 @@ default[:wlp][:archive][:extras][:url] = "#{node[:wlp][:archive][:base_url]}/wlp
 #<> Checksum value for the extras archive.
 default[:wlp][:archive][:extras][:checksum] = 'c468247e18ffb85b1d691f67839471ccd4390b299eb997151f7b56efc6332f4d'
 
-#<> Controls whether the extras archive should be downloaded and installed.
+#<> Controls whether the extras archive is downloaded and installed.
 default[:wlp][:archive][:extras][:install] = false
 
 #<> Base installation directory of the extras archive. 
@@ -71,13 +71,13 @@ default[:wlp][:archive][:extras][:base_dir] = "#{node[:wlp][:base_dir]}/extras"
 
 #<
 # Accept license terms when doing archive-based installation. 
-# Must be set to `true` otherwise installation will fail. 
+# Must be set to `true` or the installation fails. 
 #>
 default[:wlp][:archive][:accept_license] = false
 
 #<
-# URL location to a zip file containing Liberty profile installation files. Must be set 
-# only when `node[:wlp][:install_method]` is set to `zip`.
+# URL location for a zip file containing Liberty profile installation files. Must be set 
+# if `node[:wlp][:install_method]` is set to `zip`.
 #>
 default[:wlp][:zip][:url] = nil
 
